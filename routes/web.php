@@ -4,9 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Login');
-})->name('login');
+    return Inertia::render('User/Dashboard/Index');
+})->name('dashboard')->middleware('auth:web');
 
-Route::get('/register', function () {
-    return Inertia::render('Register');
-})->name('register');
+require __DIR__ . '/auth.php';
+
