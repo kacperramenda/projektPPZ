@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import Input from '@/components/forms/Input.vue';
 import { useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3'
 
 const props = defineProps({
     errors: {
@@ -21,9 +22,12 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+
 </script>
 
 <template>
+    <Head title="Login"/>
     <div class="flex items-center justify-center w-full min-h-[100vh] bg-base-200 flex-col">
         <h1 class="my-3 font-semibold">Login to your account</h1>
         <div class="sm:min-w-[500px] min-w-[0px] flex shadow-lg">

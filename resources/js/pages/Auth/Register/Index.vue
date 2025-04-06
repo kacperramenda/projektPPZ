@@ -2,6 +2,7 @@
 import Input from '@/components/forms/Input.vue';
 import Textarea from '@/components/forms/Textarea.vue';
 import { useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     errors: {
@@ -27,6 +28,7 @@ const submit = () => {
 </script>
 
 <template>
+    <Head title="Register"/>
     <div class="flex items-center justify-center w-full min-h-[100vh] bg-base-200 flex-col">
         <h1 class="my-3 font-semibold">Create new account</h1>
         <div class="sm:min-w-[600px] flex shadow-lg">

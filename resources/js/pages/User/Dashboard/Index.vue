@@ -5,6 +5,7 @@ import Modal from '@/components/utils/Modal.vue';
 import Input from '@/components/forms/Input.vue';
 import Textarea from '@/components/forms/Textarea.vue';
 import { ref } from 'vue'
+import { Head } from '@inertiajs/vue3'
 
 const user = usePage().props.auth.user
 const editModal = ref(null)
@@ -66,6 +67,7 @@ const changePassword = () => {
 </script>
 
 <template>
+    <Head title="Account"/>
     <div class="w-[100vw] h-[100vh] flex flex-col items-center justify-center bg-base-200">
         <div class="p-12 shadow-xl min-h-[400px] min-w-[800px] mx-auto flex flex-col bg-white">
             <div class="flex flex-col gap-2">
