@@ -39,12 +39,16 @@ const form = useForm({
 })
 
 const changePasswordForm = useForm({
-    password: '',
-    password_confirmation: ''
+    current_password: '',
+    new_password: '',
+    new_password_confirmation: ''
 })
 
+
+
+
 const editAccount = () => {
-    form.put(route('user.update', user.id), {
+    form.put(route('user.edit', user.id), {
         onSuccess: () => {
             editModal.value.closeModal()
         },
@@ -64,6 +68,21 @@ const changePassword = () => {
         }
     })
 }
+
+const deleteAccount = () => {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        const deleteForm = useForm({});
+        deleteForm.delete(route('user.delete', user.id), {
+            onSuccess: () => {
+                window.location.href = '/';
+            },
+            onError: (errors) => {
+                console.error(errors);
+            }
+        });
+    }
+};
+
 </script>
 
 <template>
@@ -83,7 +102,7 @@ const changePassword = () => {
             <div class="w-full flex gap-2 items-center justify-end mt-auto">
                 <button class="btn btn-primary mt-4" @click.prevent="showEditModal()">Edit account</button>
                 <button class="btn btn-secondary mt-4" @click.prevent="showChangePasswordModal()">Change password</button>
-                <button class="btn btn-error mt-4" @click.prevent="logout">Delete account</button>
+                <button class="btn btn-error mt-4" @click.prevent="deleteAccount">Delete account</button>
                 <button class="btn btn-neutral mt-4" @click.prevent="logout">Logout</button>
             </div>
         </div>
@@ -101,8 +120,9 @@ const changePassword = () => {
     <Modal ref="changePasswordModal">
         <h1 class="text-xl font-bold mb-4">Change password</h1>
         <form class="flex flex-col" @submit.prevent="changePassword">
-            <Input v-model="changePasswordForm.password" placeholder="New password" label="New password" type="password" :required="true" :errors="props.errors.password"/>
-            <Input v-model="changePasswordForm.password_confirmation" placeholder="Confirm new password" label="Confirm new password" type="password" :required="true" :errors="props.errors.confirmPassword"/>
+            <Input v-model="changePasswordForm.current_password" placeholder="Current password" label="Current password" type="password" :required="true" :errors="props.errors.current_password"/>
+            <Input v-model="changePasswordForm.new_password" placeholder="New password" label="New password" type="password" :required="true" :errors="props.errors.password"/>
+            <Input v-model="changePasswordForm.new_password_confirmation" placeholder="Confirm new password" label="Confirm new password" type="password" :required="true" :errors="props.errors.confirmPassword"/>
             <button class="btn btn-neutral w-full mt-4">Change password</button>
         </form>
     </Modal>

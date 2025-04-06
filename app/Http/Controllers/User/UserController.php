@@ -3,21 +3,65 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\Edit\EditUserRequest;
+use App\Http\Requests\User\Edit\ChangePasswordRequest;
+use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function edit($id)
+
+    public function edit($id, EditUserRequest $request): RedirectResponse
     {
-        // Logic to edit user
+        $validated = $request->validated();
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['message' => 'User not found']);
+        }
+
+        $user->update([
+            'name' => $validated['name'],
+            'surname' => $validated['surname'],
+            'email' => $validated['email'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'User updated successfully');
     }
 
-    public function changePassword($id)
+    public function changePassword($id, ChangePasswordRequest $request): RedirectResponse
     {
-        // Logic to change user password
+        $validated = $request->validated();
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['message' => 'User not found']);
+        }
+
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return redirect()->back()->withErrors(['message' => 'Current password is incorrect']);
+        }
+
+        $user->update([
+            'password' => Hash::make($validated['new_password']),
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'User password updated successfully');
     }
 
-    public function delete()
+    public function delete($id): RedirectResponse
     {
-        // Logic to delete user
-    }
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['message' => 'User not found']);
+        }
+
+        $user->delete();
+
+        return redirect()->route('dashboard')->with('success', 'User deleted successfully');    }
 }
