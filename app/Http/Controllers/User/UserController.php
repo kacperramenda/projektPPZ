@@ -3,40 +3,15 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\Edit\EditUserRequest;
-use App\Http\Requests\User\Edit\ChangePasswordRequest;
-use Illuminate\Http\RedirectResponse;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
-    public function edit($id, EditUserRequest $request): RedirectResponse
+    public function edit($id)
     {
-        $validated = $request->validated();
-
-        $user = User::find($id);
-
-        if (!$user) {
-            return redirect()->back()
-                ->with('message', 'User not found')
-                ->with('type', 'error');
-        }
-
-        $user->update([
-            'name' => $validated['name'],
-            'surname' => $validated['surname'],
-            'email' => $validated['email'],
-            'description' => $validated['description'] ?? null,
-        ]);
-
-        return redirect()->route('dashboard')
-            ->with('message', 'User updated successfully')
-            ->with('type', 'success');
+        // Logic to edit user
     }
 
-    public function changePassword($id, ChangePasswordRequest $request): RedirectResponse
+    public function changePassword($id)
     {
         $validated = $request->validated();
 
@@ -63,20 +38,8 @@ class UserController extends Controller
             ->with('type', 'success');
     }
 
-    public function delete($id): RedirectResponse
+    public function delete()
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            return redirect()->back()
-                ->with('message', 'User not found')
-                ->with('type', 'error');
-        }
-
-        $user->delete();
-
-        return redirect('/login')
-            ->with('message', 'Account deleted successfully!')
-            ->with('type', 'success');
+        // Logic to delete user
     }
 }

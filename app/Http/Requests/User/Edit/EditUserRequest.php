@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User\Edit;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class EditUserRequest extends FormRequest
 {
@@ -11,7 +10,7 @@ class EditUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->user()->id)],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'description' => ['sometimes', 'nullable', 'string'],
         ];
     }
