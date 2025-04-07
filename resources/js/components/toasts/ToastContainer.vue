@@ -1,22 +1,28 @@
 <script setup>
-import { useToastStore } from '@/stores/useToastStore';
-import Toast from '@/components/toasts/Toast.vue';
-import { onMounted } from 'vue';
-import { usePage } from '@inertiajs/vue3';
-const toastStore = useToastStore();
+import { useToastStore } from '@/stores/useToastStore'
+import Toast from '@/components/toasts/Toast.vue'
+import { watch } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
-onMounted(() => {
-    if (usePage().props.flash.message) {
-        const type = usePage().props.flash.type || 'info'
-        const message = usePage().props.flash.message
+const toastStore = useToastStore()
+const page = usePage()
 
-        toastStore.addToast({
-            id: Date.now(),
-            message,
-            type
-        })
-    }
-});
+watch(
+    () => page.props,
+    (props) => {
+        const message = props.flash?.message
+        const type = props.flash?.type || 'info'
+
+        if (message) {
+            toastStore.addToast({
+                id: Date.now(),
+                message,
+                type,
+            })
+        }
+    },
+    { immediate: true, deep: true }
+)
 </script>
 
 <template>

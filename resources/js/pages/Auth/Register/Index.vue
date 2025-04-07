@@ -22,7 +22,12 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('register'), {
-        onFinish: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+        },
+        onError: (errors) => {
+            console.log(errors);
+        }
     });
 };
 </script>
@@ -38,7 +43,7 @@ const submit = () => {
                     <Input v-model="form.surname" placeholder="Your surname" label="Surname" :required="true" :errors="props.errors.surname"/>
                     <Input v-model="form.email" placeholder="Email address" label="Email" :required="true" :errors="props.errors.email"/>
                     <Input v-model="form.password" placeholder="Password" label="Password" type="password" :required="true" :errors="props.errors.password"/>
-                    <Input v-model="form.password_confirmation" placeholder="Confirm password" label="Confirm password" type="password" :required="true" :errors="props.errors.confirmPassword"/>
+                    <Input v-model="form.password_confirmation" placeholder="Confirm password" label="Confirm password" type="password" :required="true" :errors="props.errors.password_confirmation"/>
                     <Textarea v-model="form.description" placeholder="Your bio" label="Description"/>
                     <button class="btn btn-neutral w-full mt-4">Register</button>
                 </form>
