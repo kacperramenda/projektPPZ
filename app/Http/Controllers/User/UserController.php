@@ -13,7 +13,29 @@ class UserController extends Controller
 
     public function changePassword($id)
     {
-        // Logic to change user password
+        $validated = $request->validated();
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
+        }
+
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
+        }
+
+        $user->update([
+            'password' => Hash::make($validated['new_password']),
+        ]);
+
+        return redirect()->route('dashboard')
+            ->with('message', 'Password changed successfully')
+            ->with('type', 'success');
     }
 
     public function delete()

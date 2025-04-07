@@ -71,7 +71,7 @@ const changePassword = () => {
 
 <template>
     <AppLayout>
-        <Head title="Account"/>
+        <Head title="Account" />
         <div class="w-[100vw] h-[100vh] flex flex-col items-center justify-center bg-base-200">
             <div class="p-12 shadow-xl min-h-[400px] min-w-[800px] mx-auto flex flex-col bg-white">
                 <div class="flex flex-col gap-2">
