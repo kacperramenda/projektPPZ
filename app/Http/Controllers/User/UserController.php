@@ -19,7 +19,9 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return redirect()->back()->withErrors(['message' => 'User not found']);
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
         }
 
         $user->update([
@@ -29,7 +31,9 @@ class UserController extends Controller
             'description' => $validated['description'] ?? null,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'User updated successfully');
+        return redirect()->route('dashboard')
+            ->with('message', 'User updated successfully')
+            ->with('type', 'success');
     }
 
     public function changePassword($id, ChangePasswordRequest $request): RedirectResponse
@@ -39,18 +43,24 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return redirect()->back()->withErrors(['message' => 'User not found']);
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
         }
 
         if (!Hash::check($validated['current_password'], $user->password)) {
-            return redirect()->back()->withErrors(['message' => 'Current password is incorrect']);
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
         }
 
         $user->update([
             'password' => Hash::make($validated['new_password']),
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'User password updated successfully');
+        return redirect()->route('dashboard')
+            ->with('message', 'Password changed successfully')
+            ->with('type', 'success');
     }
 
     public function delete($id): RedirectResponse
@@ -58,10 +68,15 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return redirect()->back()->withErrors(['message' => 'User not found']);
+            return redirect()->back()
+                ->with('message', 'User not found')
+                ->with('type', 'error');
         }
 
         $user->delete();
 
-        return redirect()->route('dashboard')->with('success', 'User deleted successfully');    }
+        return redirect('/login')
+            ->with('message', 'Account deleted successfully!')
+            ->with('type', 'success');
+    }
 }
