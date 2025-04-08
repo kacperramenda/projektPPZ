@@ -1,10 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::get('/', function () {
-    return Inertia::render('User/Dashboard/Index');
-})->name('dashboard')->middleware('auth:web');
+Route::get('/', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.index')->middleware('auth:web');
 
 Route::post('/user/{id}/edit/', [App\Http\Controllers\User\UserController::class, 'update'])->name('user.update')->middleware('auth:web');
 

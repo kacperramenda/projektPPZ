@@ -1,7 +1,7 @@
 <script setup>
-
+import AdminDashboardLayout from '@/layouts/AdminDashboardLayout.vue';
 </script>
 
 <template>
-    widok admin
+    <AdminDashboardLayout/>
 </template>
