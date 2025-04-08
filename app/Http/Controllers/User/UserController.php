@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $user = auth()->user();
+        if($user->hasRole('admin')) {
+            return redirect()->route('admin.users')
+                ->with('message', 'You are not allowed to access this page')
+                ->with('type', 'error');
+        }
+        return inertia('User/Index', [
+            'user' => auth()->user(),
+        ]);
+    }
+
     public function update(EditUserRequest $request, $id)
     {
         $validated = $request->validated();
