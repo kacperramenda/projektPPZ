@@ -3,10 +3,10 @@ import { AccountManager, type User } from '../../utils/accountManager';
 
 describe('Account Manager - Usuwanie kont', () => {
     const testUsers: User[] = [
-        { id: 1, name: 'Jan Kowalski', email: 'jan@test.pl', isActive: true },
-        { id: 2, name: 'Anna Nowak', email: 'anna@test.pl', isActive: true },
-        { id: 3, name: 'Piotr Test', email: 'piotr@test.pl', isActive: true }
-    ];
+    { id: 1, firstName: 'Jan', lastName: 'Kowalski', email: 'jan@test.pl', isActive: true },
+    { id: 2, firstName: 'Anna', lastName: 'Nowak', email: 'anna@test.pl', isActive: true },
+    { id: 3, firstName: 'Piotr', lastName: 'Test', email: 'piotr@test.pl', isActive: true }
+];
 
     it('powinien usunąć istniejące konto', () => {
         const manager = new AccountManager(testUsers);
