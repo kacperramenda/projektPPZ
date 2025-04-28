@@ -24,27 +24,6 @@ pipeline {
             }
         }
 
-        stage('Composer Install') {
-            steps {
-                script {
-                    sh 'ls -l'
-                    sh 'sudo docker run --rm -v $(pwd):/app -w /app composer:2 install'
-                }
-            }
-        }
-
-        stage('Install Frontend Dependencies') {
-            steps {
-                sh 'sudo docker run --rm -v $(pwd):/app -w /app node:16 npm install'
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                sh 'sudo docker run --rm -v $(pwd):/app -w /app node:16 npm run build'
-            }
-        }
-
         stage('Build Docker Images') {
             steps {
                 script {

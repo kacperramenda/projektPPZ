@@ -19,7 +19,7 @@ COPY . .
 # Instalacja zależności PHP i frontendowych
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install
-RUN npm run production
+RUN npm run build
 
 # Uruchomienie PHP-FPM
 CMD ["php-fpm"]
