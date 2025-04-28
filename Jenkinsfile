@@ -30,7 +30,7 @@ pipeline {
         stage('Composer Install') {
             steps {
                 sh '''
-                    docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader
+                    sudo docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader
                 '''
             }
         }
