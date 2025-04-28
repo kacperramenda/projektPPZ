@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'my-laravel-inertia-app'
         DOCKER_CONTAINER_APP = 'laravel-app'
         DOCKER_CONTAINER_DB = 'laravel-db'
-        GIT_REPO = 'git@github.com:twoj-uzytkownik/twoje-repo.git'
+        GIT_REPO = 'git@github.com:kacperramenda/projektPPZ.git'
         PROD_BRANCH = 'master'
         DB_CONTAINER_NAME = 'laravel-db'
     }
