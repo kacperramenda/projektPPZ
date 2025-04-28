@@ -30,7 +30,8 @@ pipeline {
         stage('Composer Install') {
             steps {
                 sh '''
-                    sudo docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader
+                    # If composer.json is in a subdirectory (e.g., "app"), use:
+                    sudo docker run --rm -v $(pwd)/app:/app -w /app composer install --no-dev --optimize-autoloader
                 '''
             }
         }
