@@ -1,30 +1,25 @@
-FROM php:8.2-fpm
+# Użyj oficjalnego obrazu PHP z rozszerzeniami
+FROM php:8.1-fpm
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    zip \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+# Instalacja zależności systemowych
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git libmcrypt-dev libicu-dev
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Instalacja Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set working directory
+# Instalacja Node.js i NPM (w zależności od potrzeb)
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+
+# Ustawienia katalogu roboczego
 WORKDIR /var/www/html
 
-# Copy project files (będzie robił bind-mount i tak)
-# COPY . .
+# Kopiowanie plików projektu
+COPY . .
 
-# Permissions (opcjonalnie)
-# RUN chown -R www-data:www-data /var/www/html
+# Instalacja zależności PHP i frontendowych
+RUN composer install --no-dev --optimize-autoloader
+RUN npm install
+RUN npm run production
 
-# Expose port (jeśli potrzebne — tu raczej nginx przed fpm powinien być)
-# EXPOSE 9000
-
+# Uruchomienie PHP-FPM
 CMD ["php-fpm"]

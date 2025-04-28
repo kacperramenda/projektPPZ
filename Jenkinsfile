@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'my-laravel-inertia-app'
+        DOCKER_IMAGE_NAME = 'my-laravel-app'
         DOCKER_CONTAINER_APP = 'laravel-app'
         DOCKER_CONTAINER_DB = 'laravel-db'
         GIT_REPO = 'git@github.com:kacperramenda/projektPPZ.git'
         PROD_BRANCH = 'master'
-        DB_CONTAINER_NAME = 'laravel-db'
     }
 
     stages {
@@ -17,8 +16,6 @@ pipeline {
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "${PROD_BRANCH}"]],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0]],
                         userRemoteConfigs: [[
                             url: "${GIT_REPO}"
                         ]]
@@ -29,26 +26,28 @@ pipeline {
 
         stage('Composer Install') {
             steps {
-                sh 'composer install'
+                script {
+                    sh 'sudo docker run --rm -v $(pwd):/app -w /app composer:2 install'
+                }
             }
         }
 
         stage('Install Frontend Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'sudo docker run --rm -v $(pwd):/app -w /app node:16 npm install'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                sh 'npm run build'
+                sh 'sudo docker run --rm -v $(pwd):/app -w /app node:16 npm run build'
             }
         }
 
         stage('Build Docker Images') {
             steps {
                 script {
-                    sh 'docker-compose -f docker/docker-compose.yml build'
+                    sh 'sudo docker-compose -f docker/docker-compose.yml build'
                 }
             }
         }
@@ -56,7 +55,7 @@ pipeline {
         stage('Start Services') {
             steps {
                 script {
-                    sh 'docker-compose -f docker/docker-compose.yml up -d'
+                    sh 'sudo docker-compose -f docker/docker-compose.yml up -d'
                 }
             }
         }
