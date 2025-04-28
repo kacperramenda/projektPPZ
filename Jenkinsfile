@@ -27,6 +27,7 @@ pipeline {
         stage('Composer Install') {
             steps {
                 script {
+                    sh 'ls -l'
                     sh 'sudo docker run --rm -v $(pwd):/app -w /app composer:2 install'
                 }
             }
