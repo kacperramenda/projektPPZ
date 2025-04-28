@@ -29,7 +29,7 @@ pipeline {
 
         stage('Install Backend Dependencies') {
             steps {
-                sh 'composer install --no-dev --optimize-autoloader'
+                sh 'docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader'
             }
         }
 
