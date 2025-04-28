@@ -27,6 +27,12 @@ pipeline {
             }
         }
 
+        stage('Install Backend Dependencies') {
+            steps {
+                sh 'composer install --no-dev --optimize-autoloader'
+            }
+        }
+
         stage('Install Frontend Dependencies') {
             steps {
                 sh 'npm install'
