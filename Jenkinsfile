@@ -27,10 +27,11 @@ pipeline {
             }
         }
 
-        stage('Install Backend Dependencies') {
+        stage('Composer Install') {
             steps {
-                sh 'ls -alh'
-                sh 'sudo docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader'
+                sh '''
+                    docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader
+                '''
             }
         }
 
