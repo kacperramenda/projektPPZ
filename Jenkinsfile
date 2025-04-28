@@ -29,7 +29,7 @@ pipeline {
 
         stage('Install Backend Dependencies') {
             steps {
-                sh 'docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader'
+                sh 'sudo docker run --rm -v $(pwd):/app -w /app composer install --no-dev --optimize-autoloader'
             }
         }
 
@@ -75,7 +75,7 @@ pipeline {
         stage('Run Laravel Migrations') {
             steps {
                 script {
-                    sh "docker exec ${DOCKER_CONTAINER_APP} php artisan migrate --force"
+                    sh "sudo docker exec ${DOCKER_CONTAINER_APP} php artisan migrate --force"
                 }
             }
         }
