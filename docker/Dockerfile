@@ -1,25 +1,32 @@
-# Użyj oficjalnego obrazu PHP z rozszerzeniami
 FROM php:8.1-fpm
 
-# Instalacja zależności systemowych
-RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git libmcrypt-dev libicu-dev
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    git \
+    libicu-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql intl
 
-# Instalacja Composer
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Instalacja Node.js i NPM (w zależności od potrzeb)
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
 
-# Ustawienia katalogu roboczego
+# Set working directory
 WORKDIR /var/www/html
 
-# Kopiowanie plików projektu
+# Copy application files
 COPY . .
 
-# Instalacja zależności PHP i frontendowych
-RUN composer install --no-dev --optimize-autoloader
-RUN npm install
-RUN npm run build
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader \
+    && npm install \
+    && npm run build
 
-# Uruchomienie PHP-FPM
 CMD ["php-fpm"]

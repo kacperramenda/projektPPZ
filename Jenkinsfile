@@ -24,28 +24,22 @@ pipeline {
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'sudo docker-compose -f docker/docker-compose.yml build'
-                }
+                sh "sudo docker build -t ${DOCKER_IMAGE_NAME}:latest ."
             }
         }
 
-        stage('Start Services') {
-            steps {
-                script {
-                    sh 'sudo docker-compose -f docker/docker-compose.yml up -d'
-                }
-            }
-        }
-
-        stage('Wait for Database') {
+        stage('Deploy to Docker Container') {
             steps {
                 script {
                     sh '''
-                    echo "Czekam na bazę danych..."
-                    sleep 10
+                    sudo docker stop ${DOCKER_CONTAINER_APP} || true
+                    sudo docker stop ${DOCKER_CONTAINER_DB} || true
+                    sudo docker rm ${DOCKER_CONTAINER_APP} || true
+                    sudo docker rm ${DOCKER_CONTAINER_DB} || true
+                    sudo docker run -d --name ${DOCKER_CONTAINER_DB} -e MYSQL_ROOT_PASSWORD=secret mysql:8.0
+                    sudo docker run -d --name ${DOCKER_CONTAINER_APP} -p 80:9000 --link ${DOCKER_CONTAINER_DB}:db ${DOCKER_IMAGE_NAME}:latest
                     '''
                 }
             }
