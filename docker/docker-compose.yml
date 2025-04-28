@@ -17,6 +17,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - .:/var/www/html
+    restart: unless-stopped
 
   db:
     image: mysql:8.0
@@ -30,4 +31,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db-data
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
