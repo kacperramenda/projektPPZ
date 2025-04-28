@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'twoje-credentials-id', keyFileVariable: 'PK')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: '2727f907-615e-451a-86c8-9bf91e436837', keyFileVariable: 'PK')]) {
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "${PROD_BRANCH}"]],
