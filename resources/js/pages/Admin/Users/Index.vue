@@ -1,16 +1,34 @@
 <script setup>
+import { router } from '@inertiajs/vue3'
 import AdminDashboardLayout from '@/layouts/AdminDashboardLayout.vue';
 import Table from '@/components/table/Table.vue';
 import Panel from '@/components/admin/Panel.vue';
+
 const props = defineProps({
     users: {
         type: Array,
         default: () => []
     },
 });
+
+function confirmDelete(userId) {
+  if (confirm('Czy na pewno chcesz usunąć tego użytkownika?')) {
+    router.delete(route('admin.users.delete', userId));
+  }
+}
+
+function deleteUser(id) {
+    if (confirm('Czy na pewno chcesz usunąć tego użytkownika?')) {
+        router.delete(route('admin.users.delete', id));
+    }
+}
 </script>
 
 <template>
+    <div v-if="$page.props.flash.success" class="alert alert-success mb-4">
+    {{ $page.props.flash.success }}
+  </div>
+  
     <AdminDashboardLayout>
         <Panel name="Users">
             <Table>
@@ -31,11 +49,18 @@ const props = defineProps({
                         <td>{{ user.surname }}</td>
                         <td>{{ user.email }}</td>
                         <td>
-                            <span v-bind:key="role.id" v-for="role in user.roles">{{role.name}}</span>
+                            <span v-for="role in user.roles" :key="role.id">{{ role.name }}</span>
                         </td>
                         <td class="flex gap-2">
                             <Link :href="route('admin.users.edit', user.id)" class="btn btn-primary">Edit</Link>
-                            <Link :href="route('admin.users.delete', user.id)" class="btn btn-error">Delete</Link>
+                            <Link
+                                :href="route('admin.users.delete', user.id)"
+                                method="delete"
+                                as="button"
+                                class="btn btn-error"
+                                @click.prevent="confirmDelete(user.id)">
+                                Delete
+                            </Link>
                         </td>
                     </tr>
                 </tbody>
@@ -43,7 +68,3 @@ const props = defineProps({
         </Panel>
     </AdminDashboardLayout>
 </template>
-
-<style scoped>
-
-</style>
