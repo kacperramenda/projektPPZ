@@ -16,21 +16,18 @@ function confirmDelete(userId) {
     router.delete(route('admin.users.delete', userId));
   }
 }
-
-function deleteUser(id) {
-    if (confirm('Czy na pewno chcesz usunąć tego użytkownika?')) {
-        router.delete(route('admin.users.delete', id));
-    }
-}
 </script>
 
 <template>
     <div v-if="$page.props.flash.success" class="alert alert-success mb-4">
     {{ $page.props.flash.success }}
   </div>
-  
+
     <AdminDashboardLayout>
         <Panel name="Users">
+            <div v-if="$page.props.flash.success" class="alert alert-success mb-4">
+                {{ $page.props.flash.success }}
+            </div>
             <Table>
                 <thead>
                     <tr>
@@ -53,14 +50,9 @@ function deleteUser(id) {
                         </td>
                         <td class="flex gap-2">
                             <Link :href="route('admin.users.edit', user.id)" class="btn btn-primary">Edit</Link>
-                            <Link
-                                :href="route('admin.users.delete', user.id)"
-                                method="delete"
-                                as="button"
-                                class="btn btn-error"
-                                @click.prevent="confirmDelete(user.id)">
+                            <button @click="confirmDelete(user.id)" class="btn btn-error">
                                 Delete
-                            </Link>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

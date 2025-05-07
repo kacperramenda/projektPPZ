@@ -22,6 +22,7 @@ function submit() {
 
 <template>
   <AdminDashboardLayout>
+    <h1 class="text-2xl font-bold mb-4">Edycja użytkownika {{ props.user.name }}</h1>
     <Panel name="Edit User">
         <div v-if="Object.keys(form.errors).length" class="text-red-600">
         <ul class="list-disc pl-4">
