@@ -3,6 +3,7 @@ import { router } from '@inertiajs/vue3'
 import AdminDashboardLayout from '@/layouts/AdminDashboardLayout.vue';
 import Table from '@/components/table/Table.vue';
 import Panel from '@/components/admin/Panel.vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     users: {
