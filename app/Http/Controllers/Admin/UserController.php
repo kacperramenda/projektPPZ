@@ -7,6 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -52,8 +53,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        
+        // Prevent admin from deleting their own account
+        if ($user->id === Auth::id()) {
+            abort(403, 'You cannot delete your own account');
+        }
+        
         $user->delete();
 
-        return redirect()->route('admin.users')->with('success', 'Użytkownik został usunięty');
+        return redirect()
+            ->route('admin.users')
+            ->with('message', 'User deleted successfully')
+            ->with('type', 'success');
     }
 }
