@@ -10,8 +10,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])
         ->name('admin.users');
 
-    Route::get('admin/users/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])
-        ->name('admin.users.edit');
+    // Route::get('admin/users/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])
+        // ->name('admin.users.edit');
+    Route::get('admin/users/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
+
+
+    Route::put('admin/users/{id}/update', [\App\Http\Controllers\Admin\UserController::class, 'update'])
+        ->name('admin.users.update');
 
     Route::delete('admin/users/{id}/delete', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])
         ->name('admin.users.delete');
