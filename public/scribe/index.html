@@ -1,0 +1,3665 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>UserManager API Documentation</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="me-default.style.css" media="screen">
+    <link rel="stylesheet" href="me-default.print.css" media="print">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
+
+    <style id="language-style">
+        /* starts out as display none and is replaced with js later  */
+                    body .content .bash-example code { display: none; }
+                    body .content .javascript-example code { display: none; }
+            </style>
+
+    <script>
+        var tryItOutBaseUrl = "http://localhost";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="tout-5.2.1.js"></script>
+
+    <script src="e-default-5.2.1.js"></script>
+
+</head>
+
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
+
+<a href="#" id="nav-button">
+    <span>
+        MENU
+        <img src="navbar.png" alt="navbar-image"/>
+    </span>
+</a>
+<div class="tocify-wrapper">
+    
+            <div class="lang-selector">
+                                            <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                            <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                    </div>
+    
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+
+    <div id="toc">
+                    <ul id="tocify-header-introduction" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="introduction">
+                    <a href="#introduction">Introduction</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-authenticating-requests" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authenticating-requests">
+                    <a href="#authenticating-requests">Authenticating requests</a>
+                </li>
+                            </ul>
+                    <ul id="tocify-header-authentication" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authentication">
+                    <a href="#authentication">Authentication</a>
+                </li>
+                                    <ul id="tocify-subheader-authentication" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="authentication-GETregister">
+                                <a href="#authentication-GETregister">Show the registration page.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-GETlogin">
+                                <a href="#authentication-GETlogin">Show the login page.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-endpoints" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="endpoints">
+                    <a href="#endpoints">Endpoints</a>
+                </li>
+                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="endpoints-GETup">
+                                <a href="#endpoints-GETup">GET up</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTregister">
+                                <a href="#endpoints-POSTregister">Handle an incoming registration request.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTlogin">
+                                <a href="#endpoints-POSTlogin">Handle an incoming authentication request.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETforgot-password">
+                                <a href="#endpoints-GETforgot-password">Display the password reset link request view.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTforgot-password">
+                                <a href="#endpoints-POSTforgot-password">Handle an incoming password reset link request.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETreset-password--token-">
+                                <a href="#endpoints-GETreset-password--token-">Display the password reset view.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTreset-password">
+                                <a href="#endpoints-POSTreset-password">Handle an incoming new password request.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETverify-email">
+                                <a href="#endpoints-GETverify-email">Display the email verification prompt.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETverify-email--id---hash-">
+                                <a href="#endpoints-GETverify-email--id---hash-">Mark the authenticated user's email address as verified.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTemail-verification-notification">
+                                <a href="#endpoints-POSTemail-verification-notification">Send a new email verification notification.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETconfirm-password">
+                                <a href="#endpoints-GETconfirm-password">Show the confirm password view.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTconfirm-password">
+                                <a href="#endpoints-POSTconfirm-password">Confirm the user's password.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTpassword">
+                                <a href="#endpoints-PUTpassword">Update the user's password.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTlogout">
+                                <a href="#endpoints-POSTlogout">Destroy an authenticated session.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETadmin">
+                                <a href="#endpoints-GETadmin">GET admin</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETadmin-users">
+                                <a href="#endpoints-GETadmin-users">Display a listing of the users.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETadmin-users--id--edit">
+                                <a href="#endpoints-GETadmin-users--id--edit">Show the form for editing the specified user.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-PUTadmin-users--id--update">
+                                <a href="#endpoints-PUTadmin-users--id--update">Update the specified user in storage.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-DELETEadmin-users--id--delete">
+                                <a href="#endpoints-DELETEadmin-users--id--delete">Remove the specified user from storage.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETstorage--path-">
+                                <a href="#endpoints-GETstorage--path-">GET storage/{path}</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-user-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="user-management">
+                    <a href="#user-management">User Management</a>
+                </li>
+                                    <ul id="tocify-subheader-user-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="user-management-GET-">
+                                <a href="#user-management-GET-">Display the user dashboard.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="user-management-POSTuser--id--changePassword">
+                                <a href="#user-management-POSTuser--id--changePassword">Change the specified user's password.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="user-management-DELETEuser--id--delete">
+                                <a href="#user-management-DELETEuser--id--delete">Delete the specified user's account.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+            </div>
+
+    <ul class="toc-footer" id="toc-footer">
+                    <li style="padding-bottom: 5px;"><a href="ion.json">View Postman collection</a></li>
+                            <li style="padding-bottom: 5px;"><a href=".yaml">View OpenAPI spec</a></li>
+                <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+    </ul>
+
+    <ul class="toc-footer" id="last-updated">
+        <li>Last updated: May 25, 2025</li>
+    </ul>
+</div>
+
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id="introduction">Introduction</h1>
+<aside>
+    <strong>Base URL</strong>: <code>http://localhost</code>
+</aside>
+<pre><code>This documentation aims to provide all the information you need to work with our API.
+
+&lt;aside&gt;As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).&lt;/aside&gt;</code></pre>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>This API is not authenticated.</p>
+
+        <h1 id="authentication">Authentication</h1>
+
+    
+
+                                <h2 id="authentication-GETregister">Show the registration page.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETregister">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETregister">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;view&quot;: &quot;Auth/Register/Index&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETregister" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETregister"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETregister"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETregister" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETregister">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETregister" data-method="GET"
+      data-path="register"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETregister', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETregister"
+                    onclick="tryItOut('GETregister');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETregister"
+                    onclick="cancelTryOut('GETregister');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETregister"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>register</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETregister"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETregister"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="authentication-GETlogin">Show the login page.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETlogin">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/login" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/login"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETlogin">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;view&quot;: &quot;Auth/Login/Index&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETlogin" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETlogin"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETlogin"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETlogin" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETlogin">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETlogin" data-method="GET"
+      data-path="login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETlogin', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETlogin"
+                    onclick="tryItOut('GETlogin');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETlogin"
+                    onclick="cancelTryOut('GETlogin');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETlogin"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>login</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETlogin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETlogin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                <h1 id="endpoints">Endpoints</h1>
+
+    
+
+                                <h2 id="endpoints-GETup">GET up</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETup">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/up" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/up"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETup">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+
+    &lt;title&gt;UserManager&lt;/title&gt;
+
+    &lt;!-- Fonts --&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.bunny.net&quot;&gt;
+    &lt;link href=&quot;https://fonts.bunny.net/css?family=figtree:400,600&amp;display=swap&quot; rel=&quot;stylesheet&quot; /&gt;
+
+    &lt;!-- Styles --&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+
+    &lt;script&gt;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [&#039;Figtree&#039;, &#039;ui-sans-serif&#039;, &#039;system-ui&#039;, &#039;sans-serif&#039;, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;],
+                    }
+                }
+            }
+        }
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body class=&quot;antialiased&quot;&gt;
+&lt;div class=&quot;relative flex justify-center items-center min-h-screen bg-gray-100 selection:bg-red-500 selection:text-white&quot;&gt;
+    &lt;div class=&quot;w-full sm:w-3/4 xl:w-1/2 mx-auto p-6&quot;&gt;
+        &lt;div class=&quot;px-6 py-4 bg-white from-gray-700/50 via-transparent rounded-lg shadow-2xl shadow-gray-500/20 flex items-center focus:outline focus:outline-2 focus:outline-red-500&quot;&gt;
+            &lt;div class=&quot;relative flex h-3 w-3 group &quot;&gt;
+                &lt;span class=&quot;animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 group-[.status-down]:bg-red-600 opacity-75&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;relative inline-flex rounded-full h-3 w-3 bg-green-400 group-[.status-down]:bg-red-600&quot;&gt;&lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;div class=&quot;ml-6&quot;&gt;
+                &lt;h2 class=&quot;text-xl font-semibold text-gray-900&quot;&gt;Application up&lt;/h2&gt;
+
+                &lt;p class=&quot;mt-2 text-gray-500 dark:text-gray-400 text-sm leading-relaxed&quot;&gt;
+                    HTTP request received.
+
+                                            Response rendered in 163ms.
+                                    &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code>
+ </pre>
+    </span>
+<span id="execution-results-GETup" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETup"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETup"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETup" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETup">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETup" data-method="GET"
+      data-path="up"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETup', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETup"
+                    onclick="tryItOut('GETup');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETup"
+                    onclick="cancelTryOut('GETup');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETup"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>up</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETup"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETup"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-POSTregister">Handle an incoming registration request.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTregister">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"b\",
+    \"surname\": \"n\",
+    \"email\": \"ashly64@example.com\",
+    \"password\": \"pBNvYg\",
+    \"description\": \"Eius et animi quos velit et.\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "b",
+    "surname": "n",
+    "email": "ashly64@example.com",
+    "password": "pBNvYg",
+    "description": "Eius et animi quos velit et."
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTregister">
+</span>
+<span id="execution-results-POSTregister" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTregister"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTregister"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTregister" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTregister">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTregister" data-method="POST"
+      data-path="register"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTregister', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTregister"
+                    onclick="tryItOut('POSTregister');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTregister"
+                    onclick="cancelTryOut('POSTregister');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTregister"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>register</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTregister"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTregister"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTregister"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>surname</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="surname"                data-endpoint="POSTregister"
+               value="n"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>n</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTregister"
+               value="ashly64@example.com"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Must not be greater than 255 characters. Example: <code>ashly64@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTregister"
+               value="pBNvYg"
+               data-component="body">
+    <br>
+<p>Must be at least 8 characters. Example: <code>pBNvYg</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="POSTregister"
+               value="Eius et animi quos velit et."
+               data-component="body">
+    <br>
+<p>Example: <code>Eius et animi quos velit et.</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-POSTlogin">Handle an incoming authentication request.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTlogin">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/login" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"gbailey@example.net\",
+    \"password\": \"|]|{+-\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/login"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "gbailey@example.net",
+    "password": "|]|{+-"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTlogin">
+</span>
+<span id="execution-results-POSTlogin" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTlogin"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTlogin"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTlogin" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTlogin">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTlogin" data-method="POST"
+      data-path="login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTlogin', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTlogin"
+                    onclick="tryItOut('POSTlogin');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTlogin"
+                    onclick="cancelTryOut('POSTlogin');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTlogin"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>login</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTlogin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTlogin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTlogin"
+               value="gbailey@example.net"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>gbailey@example.net</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTlogin"
+               value="|]|{+-"
+               data-component="body">
+    <br>
+<p>Example: <code>|]|{+-</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-GETforgot-password">Display the password reset link request view.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETforgot-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/forgot-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/forgot-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETforgot-password">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+link: &lt;http://localhost/build/assets/app-CshSF23B.css&gt;; rel=&quot;preload&quot;; as=&quot;style&quot;, &lt;http://localhost/build/assets/app-CI6-uSIW.js&gt;; rel=&quot;modulepreload&quot;
+vary: X-Inertia
+set-cookie: XSRF-TOKEN=eyJpdiI6IkZITkdsTExBTjQxZWZSUEs1bHQ4N1E9PSIsInZhbHVlIjoiUlhKZW9QMUZaaVFPaU8zVWFFZnpTdWxkYkkxUjJFQmZJbEVhWVRvMHFPakVCdUJNRXFSb3RvT1hucUwwT0xGL2hWR1lCQWprRnhvNE1DUkVGU0M2NW9WeHJIRGtmVmpZRjVQSHNvUGhCNDZpOVFJYTZSSnJKK1NoWHVHT0gvQXkiLCJtYWMiOiJlN2Y5YzQ1YzM4ZDg1ZGU3NWE3YWNkNTI5ZGU4ZTU3N2EyNDUzYzg4YTFkOGVkZjA0NGFjNzhkNTliMDkwYjI5IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6ImFGNk4rYjlHSHQ2VGQ5U2tMUXlNY1E9PSIsInZhbHVlIjoiZDhBbUVvOHA0c2xZTDRSS2sydTFkdjNhc1RLUmxzc2t0K2VYTXNHYWQrTU9rTzY4MzQzakM0Y3VkeVVXS2piMkdyZi9pK1lGTks3dWR6WGxEY1BkYUZYblk4ZTc1aXJPREYxVTVRUUZZRm44MG9QbGlaK3lMa0NIemhRVTdCUi8iLCJtYWMiOiI1YjA1ODY5MDk4MDVjN2YyM2UwYTY1M2M2NGZhNjdmN2FiYTIwNjE5ZDBmNDViMWU3MTRkOGRkNTY0ZWMxYzMxIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;winter&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        &lt;title inertia&gt;UserManager&lt;/title&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;const Ziggy={&quot;url&quot;:&quot;http:\/\/localhost&quot;,&quot;port&quot;:null,&quot;defaults&quot;:{},&quot;routes&quot;:{&quot;register&quot;:{&quot;uri&quot;:&quot;register&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;login&quot;:{&quot;uri&quot;:&quot;login&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.request&quot;:{&quot;uri&quot;:&quot;forgot-password&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.email&quot;:{&quot;uri&quot;:&quot;forgot-password&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;password.reset&quot;:{&quot;uri&quot;:&quot;reset-password\/{token}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;token&quot;]},&quot;password.store&quot;:{&quot;uri&quot;:&quot;reset-password&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;verification.notice&quot;:{&quot;uri&quot;:&quot;verify-email&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;verification.verify&quot;:{&quot;uri&quot;:&quot;verify-email\/{id}\/{hash}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;id&quot;,&quot;hash&quot;]},&quot;verification.send&quot;:{&quot;uri&quot;:&quot;email\/verification-notification&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;password.confirm&quot;:{&quot;uri&quot;:&quot;confirm-password&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.update&quot;:{&quot;uri&quot;:&quot;password&quot;,&quot;methods&quot;:[&quot;PUT&quot;]},&quot;logout&quot;:{&quot;uri&quot;:&quot;logout&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;user.index&quot;:{&quot;uri&quot;:&quot;\/&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;user.update&quot;:{&quot;uri&quot;:&quot;user\/{id}\/edit&quot;,&quot;methods&quot;:[&quot;POST&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;user.changePassword&quot;:{&quot;uri&quot;:&quot;user\/{id}\/changePassword&quot;,&quot;methods&quot;:[&quot;POST&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;user.delete&quot;:{&quot;uri&quot;:&quot;user\/{id}\/delete&quot;,&quot;methods&quot;:[&quot;DELETE&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.dashboard&quot;:{&quot;uri&quot;:&quot;admin&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;admin.users&quot;:{&quot;uri&quot;:&quot;admin\/users&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;admin.users.edit&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/edit&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.users.update&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/update&quot;,&quot;methods&quot;:[&quot;PUT&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.users.delete&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/delete&quot;,&quot;methods&quot;:[&quot;DELETE&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;storage.local&quot;:{&quot;uri&quot;:&quot;storage\/{path}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;wheres&quot;:{&quot;path&quot;:&quot;.*&quot;},&quot;parameters&quot;:[&quot;path&quot;]}}};!function(t,r){&quot;object&quot;==typeof exports&amp;&amp;&quot;undefined&quot;!=typeof module?module.exports=r():&quot;function&quot;==typeof define&amp;&amp;define.amd?define(r):(t||self).route=r()}(this,function(){function t(t,r){for(var n=0;n&lt;r.length;n++){var e=r[n];e.enumerable=e.enumerable||!1,e.configurable=!0,&quot;value&quot;in e&amp;&amp;(e.writable=!0),Object.defineProperty(t,u(e.key),e)}}function r(r,n,e){return n&amp;&amp;t(r.prototype,n),e&amp;&amp;t(r,e),Object.defineProperty(r,&quot;prototype&quot;,{writable:!1}),r}function n(){return n=Object.assign?Object.assign.bind():function(t){for(var r=1;r&lt;arguments.length;r++){var n=arguments[r];for(var e in n)({}).hasOwnProperty.call(n,e)&amp;&amp;(t[e]=n[e])}return t},n.apply(null,arguments)}function e(t){return e=Object.setPrototypeOf?Object.getPrototypeOf.bind():function(t){return t.__proto__||Object.getPrototypeOf(t)},e(t)}function o(){try{var t=!Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}))}catch(t){}return(o=function(){return!!t})()}function i(t,r){return i=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(t,r){return t.__proto__=r,t},i(t,r)}function u(t){var r=function(t){if(&quot;object&quot;!=typeof t||!t)return t;var r=t[Symbol.toPrimitive];if(void 0!==r){var n=r.call(t,&quot;string&quot;);if(&quot;object&quot;!=typeof n)return n;throw new TypeError(&quot;@@toPrimitive must return a primitive value.&quot;)}return String(t)}(t);return&quot;symbol&quot;==typeof r?r:r+&quot;&quot;}function f(t){var r=&quot;function&quot;==typeof Map?new Map:void 0;return f=function(t){if(null===t||!function(t){try{return-1!==Function.toString.call(t).indexOf(&quot;[native code]&quot;)}catch(r){return&quot;function&quot;==typeof t}}(t))return t;if(&quot;function&quot;!=typeof t)throw new TypeError(&quot;Super expression must either be null or a function&quot;);if(void 0!==r){if(r.has(t))return r.get(t);r.set(t,n)}function n(){return function(t,r,n){if(o())return Reflect.construct.apply(null,arguments);var e=[null];e.push.apply(e,r);var u=new(t.bind.apply(t,e));return n&amp;&amp;i(u,n.prototype),u}(t,arguments,e(this).constructor)}return n.prototype=Object.create(t.prototype,{constructor:{value:n,enumerable:!1,writable:!0,configurable:!0}}),i(n,t)},f(t)}var a=String.prototype.replace,c=/%20/g,l=&quot;RFC3986&quot;,s={default:l,formatters:{RFC1738:function(t){return a.call(t,c,&quot;+&quot;)},RFC3986:function(t){return String(t)}},RFC1738:&quot;RFC1738&quot;,RFC3986:l},v=Object.prototype.hasOwnProperty,p=Array.isArray,y=function(){for(var t=[],r=0;r&lt;256;++r)t.push(&quot;%&quot;+((r&lt;16?&quot;0&quot;:&quot;&quot;)+r.toString(16)).toUpperCase());return t}(),d=function(t,r){for(var n=r&amp;&amp;r.plainObjects?Object.create(null):{},e=0;e&lt;t.length;++e)void 0!==t[e]&amp;&amp;(n[e]=t[e]);return n},b={arrayToObject:d,assign:function(t,r){return Object.keys(r).reduce(function(t,n){return t[n]=r[n],t},t)},combine:function(t,r){return[].concat(t,r)},compact:function(t){for(var r=[{obj:{o:t},prop:&quot;o&quot;}],n=[],e=0;e&lt;r.length;++e)for(var o=r[e],i=o.obj[o.prop],u=Object.keys(i),f=0;f&lt;u.length;++f){var a=u[f],c=i[a];&quot;object&quot;==typeof c&amp;&amp;null!==c&amp;&amp;-1===n.indexOf(c)&amp;&amp;(r.push({obj:i,prop:a}),n.push(c))}return function(t){for(;t.length&gt;1;){var r=t.pop(),n=r.obj[r.prop];if(p(n)){for(var e=[],o=0;o&lt;n.length;++o)void 0!==n[o]&amp;&amp;e.push(n[o]);r.obj[r.prop]=e}}}(r),t},decode:function(t,r,n){var e=t.replace(/\+/g,&quot; &quot;);if(&quot;iso-8859-1&quot;===n)return e.replace(/%[0-9a-f]{2}/gi,unescape);try{return decodeURIComponent(e)}catch(t){return e}},encode:function(t,r,n,e,o){if(0===t.length)return t;var i=t;if(&quot;symbol&quot;==typeof t?i=Symbol.prototype.toString.call(t):&quot;string&quot;!=typeof t&amp;&amp;(i=String(t)),&quot;iso-8859-1&quot;===n)return escape(i).replace(/%u[0-9a-f]{4}/gi,function(t){return&quot;%26%23&quot;+parseInt(t.slice(2),16)+&quot;%3B&quot;});for(var u=&quot;&quot;,f=0;f&lt;i.length;++f){var a=i.charCodeAt(f);45===a||46===a||95===a||126===a||a&gt;=48&amp;&amp;a&lt;=57||a&gt;=65&amp;&amp;a&lt;=90||a&gt;=97&amp;&amp;a&lt;=122||o===s.RFC1738&amp;&amp;(40===a||41===a)?u+=i.charAt(f):a&lt;128?u+=y[a]:a&lt;2048?u+=y[192|a&gt;&gt;6]+y[128|63&amp;a]:a&lt;55296||a&gt;=57344?u+=y[224|a&gt;&gt;12]+y[128|a&gt;&gt;6&amp;63]+y[128|63&amp;a]:(a=65536+((1023&amp;a)&lt;&lt;10|1023&amp;i.charCodeAt(f+=1)),u+=y[240|a&gt;&gt;18]+y[128|a&gt;&gt;12&amp;63]+y[128|a&gt;&gt;6&amp;63]+y[128|63&amp;a])}return u},isBuffer:function(t){return!(!t||&quot;object&quot;!=typeof t||!(t.constructor&amp;&amp;t.constructor.isBuffer&amp;&amp;t.constructor.isBuffer(t)))},isRegExp:function(t){return&quot;[object RegExp]&quot;===Object.prototype.toString.call(t)},maybeMap:function(t,r){if(p(t)){for(var n=[],e=0;e&lt;t.length;e+=1)n.push(r(t[e]));return n}return r(t)},merge:function t(r,n,e){if(!n)return r;if(&quot;object&quot;!=typeof n){if(p(r))r.push(n);else{if(!r||&quot;object&quot;!=typeof r)return[r,n];(e&amp;&amp;(e.plainObjects||e.allowPrototypes)||!v.call(Object.prototype,n))&amp;&amp;(r[n]=!0)}return r}if(!r||&quot;object&quot;!=typeof r)return[r].concat(n);var o=r;return p(r)&amp;&amp;!p(n)&amp;&amp;(o=d(r,e)),p(r)&amp;&amp;p(n)?(n.forEach(function(n,o){if(v.call(r,o)){var i=r[o];i&amp;&amp;&quot;object&quot;==typeof i&amp;&amp;n&amp;&amp;&quot;object&quot;==typeof n?r[o]=t(i,n,e):r.push(n)}else r[o]=n}),r):Object.keys(n).reduce(function(r,o){var i=n[o];return r[o]=v.call(r,o)?t(r[o],i,e):i,r},o)}},h=Object.prototype.hasOwnProperty,g={brackets:function(t){return t+&quot;[]&quot;},comma:&quot;comma&quot;,indices:function(t,r){return t+&quot;[&quot;+r+&quot;]&quot;},repeat:function(t){return t}},m=Array.isArray,j=String.prototype.split,w=Array.prototype.push,O=function(t,r){w.apply(t,m(r)?r:[r])},E=Date.prototype.toISOString,R=s.default,S={addQueryPrefix:!1,allowDots:!1,charset:&quot;utf-8&quot;,charsetSentinel:!1,delimiter:&quot;&amp;&quot;,encode:!0,encoder:b.encode,encodeValuesOnly:!1,format:R,formatter:s.formatters[R],indices:!1,serializeDate:function(t){return E.call(t)},skipNulls:!1,strictNullHandling:!1},k=function t(r,n,e,o,i,u,f,a,c,l,s,v,p,y){var d,h=r;if(&quot;function&quot;==typeof f?h=f(n,h):h instanceof Date?h=l(h):&quot;comma&quot;===e&amp;&amp;m(h)&amp;&amp;(h=b.maybeMap(h,function(t){return t instanceof Date?l(t):t})),null===h){if(o)return u&amp;&amp;!p?u(n,S.encoder,y,&quot;key&quot;,s):n;h=&quot;&quot;}if(&quot;string&quot;==typeof(d=h)||&quot;number&quot;==typeof d||&quot;boolean&quot;==typeof d||&quot;symbol&quot;==typeof d||&quot;bigint&quot;==typeof d||b.isBuffer(h)){if(u){var g=p?n:u(n,S.encoder,y,&quot;key&quot;,s);if(&quot;comma&quot;===e&amp;&amp;p){for(var w=j.call(String(h),&quot;,&quot;),E=&quot;&quot;,R=0;R&lt;w.length;++R)E+=(0===R?&quot;&quot;:&quot;,&quot;)+v(u(w[R],S.encoder,y,&quot;value&quot;,s));return[v(g)+&quot;=&quot;+E]}return[v(g)+&quot;=&quot;+v(u(h,S.encoder,y,&quot;value&quot;,s))]}return[v(n)+&quot;=&quot;+v(String(h))]}var k,T=[];if(void 0===h)return T;if(&quot;comma&quot;===e&amp;&amp;m(h))k=[{value:h.length&gt;0?h.join(&quot;,&quot;)||null:void 0}];else if(m(f))k=f;else{var $=Object.keys(h);k=a?$.sort(a):$}for(var x=0;x&lt;k.length;++x){var N=k[x],C=&quot;object&quot;==typeof N&amp;&amp;void 0!==N.value?N.value:h[N];if(!i||null!==C){var A=m(h)?&quot;function&quot;==typeof e?e(n,N):n:n+(c?&quot;.&quot;+N:&quot;[&quot;+N+&quot;]&quot;);O(T,t(C,A,e,o,i,u,f,a,c,l,s,v,p,y))}}return T},T=Object.prototype.hasOwnProperty,$=Array.isArray,x={allowDots:!1,allowPrototypes:!1,arrayLimit:20,charset:&quot;utf-8&quot;,charsetSentinel:!1,comma:!1,decoder:b.decode,delimiter:&quot;&amp;&quot;,depth:5,ignoreQueryPrefix:!1,interpretNumericEntities:!1,parameterLimit:1e3,parseArrays:!0,plainObjects:!1,strictNullHandling:!1},N=function(t){return t.replace(/&amp;#(\d+);/g,function(t,r){return String.fromCharCode(parseInt(r,10))})},C=function(t,r){return t&amp;&amp;&quot;string&quot;==typeof t&amp;&amp;r.comma&amp;&amp;t.indexOf(&quot;,&quot;)&gt;-1?t.split(&quot;,&quot;):t},A=function(t,r,n,e){if(t){var o=n.allowDots?t.replace(/\.([^.[]+)/g,&quot;[$1]&quot;):t,i=/(\[[^[\]]*])/g,u=n.depth&gt;0&amp;&amp;/(\[[^[\]]*])/.exec(o),f=u?o.slice(0,u.index):o,a=[];if(f){if(!n.plainObjects&amp;&amp;T.call(Object.prototype,f)&amp;&amp;!n.allowPrototypes)return;a.push(f)}for(var c=0;n.depth&gt;0&amp;&amp;null!==(u=i.exec(o))&amp;&amp;c&lt;n.depth;){if(c+=1,!n.plainObjects&amp;&amp;T.call(Object.prototype,u[1].slice(1,-1))&amp;&amp;!n.allowPrototypes)return;a.push(u[1])}return u&amp;&amp;a.push(&quot;[&quot;+o.slice(u.index)+&quot;]&quot;),function(t,r,n,e){for(var o=e?r:C(r,n),i=t.length-1;i&gt;=0;--i){var u,f=t[i];if(&quot;[]&quot;===f&amp;&amp;n.parseArrays)u=[].concat(o);else{u=n.plainObjects?Object.create(null):{};var a=&quot;[&quot;===f.charAt(0)&amp;&amp;&quot;]&quot;===f.charAt(f.length-1)?f.slice(1,-1):f,c=parseInt(a,10);n.parseArrays||&quot;&quot;!==a?!isNaN(c)&amp;&amp;f!==a&amp;&amp;String(c)===a&amp;&amp;c&gt;=0&amp;&amp;n.parseArrays&amp;&amp;c&lt;=n.arrayLimit?(u=[])[c]=o:&quot;__proto__&quot;!==a&amp;&amp;(u[a]=o):u={0:o}}o=u}return o}(a,r,n,e)}},D=function(t,r){var n=function(t){if(!t)return x;if(null!=t.decoder&amp;&amp;&quot;function&quot;!=typeof t.decoder)throw new TypeError(&quot;Decoder has to be a function.&quot;);if(void 0!==t.charset&amp;&amp;&quot;utf-8&quot;!==t.charset&amp;&amp;&quot;iso-8859-1&quot;!==t.charset)throw new TypeError(&quot;The charset option must be either utf-8, iso-8859-1, or undefined&quot;);return{allowDots:void 0===t.allowDots?x.allowDots:!!t.allowDots,allowPrototypes:&quot;boolean&quot;==typeof t.allowPrototypes?t.allowPrototypes:x.allowPrototypes,arrayLimit:&quot;number&quot;==typeof t.arrayLimit?t.arrayLimit:x.arrayLimit,charset:void 0===t.charset?x.charset:t.charset,charsetSentinel:&quot;boolean&quot;==typeof t.charsetSentinel?t.charsetSentinel:x.charsetSentinel,comma:&quot;boolean&quot;==typeof t.comma?t.comma:x.comma,decoder:&quot;function&quot;==typeof t.decoder?t.decoder:x.decoder,delimiter:&quot;string&quot;==typeof t.delimiter||b.isRegExp(t.delimiter)?t.delimiter:x.delimiter,depth:&quot;number&quot;==typeof t.depth||!1===t.depth?+t.depth:x.depth,ignoreQueryPrefix:!0===t.ignoreQueryPrefix,interpretNumericEntities:&quot;boolean&quot;==typeof t.interpretNumericEntities?t.interpretNumericEntities:x.interpretNumericEntities,parameterLimit:&quot;number&quot;==typeof t.parameterLimit?t.parameterLimit:x.parameterLimit,parseArrays:!1!==t.parseArrays,plainObjects:&quot;boolean&quot;==typeof t.plainObjects?t.plainObjects:x.plainObjects,strictNullHandling:&quot;boolean&quot;==typeof t.strictNullHandling?t.strictNullHandling:x.strictNullHandling}}(r);if(&quot;&quot;===t||null==t)return n.plainObjects?Object.create(null):{};for(var e=&quot;string&quot;==typeof t?function(t,r){var n,e={},o=(r.ignoreQueryPrefix?t.replace(/^\?/,&quot;&quot;):t).split(r.delimiter,Infinity===r.parameterLimit?void 0:r.parameterLimit),i=-1,u=r.charset;if(r.charsetSentinel)for(n=0;n&lt;o.length;++n)0===o[n].indexOf(&quot;utf8=&quot;)&amp;&amp;(&quot;utf8=%E2%9C%93&quot;===o[n]?u=&quot;utf-8&quot;:&quot;utf8=%26%2310003%3B&quot;===o[n]&amp;&amp;(u=&quot;iso-8859-1&quot;),i=n,n=o.length);for(n=0;n&lt;o.length;++n)if(n!==i){var f,a,c=o[n],l=c.indexOf(&quot;]=&quot;),s=-1===l?c.indexOf(&quot;=&quot;):l+1;-1===s?(f=r.decoder(c,x.decoder,u,&quot;key&quot;),a=r.strictNullHandling?null:&quot;&quot;):(f=r.decoder(c.slice(0,s),x.decoder,u,&quot;key&quot;),a=b.maybeMap(C(c.slice(s+1),r),function(t){return r.decoder(t,x.decoder,u,&quot;value&quot;)})),a&amp;&amp;r.interpretNumericEntities&amp;&amp;&quot;iso-8859-1&quot;===u&amp;&amp;(a=N(a)),c.indexOf(&quot;[]=&quot;)&gt;-1&amp;&amp;(a=$(a)?[a]:a),e[f]=T.call(e,f)?b.combine(e[f],a):a}return e}(t,n):t,o=n.plainObjects?Object.create(null):{},i=Object.keys(e),u=0;u&lt;i.length;++u){var f=i[u],a=A(f,e[f],n,&quot;string&quot;==typeof t);o=b.merge(o,a,n)}return b.compact(o)},P=/*#__PURE__*/function(){function t(t,r,n){var e,o;this.name=t,this.definition=r,this.bindings=null!=(e=r.bindings)?e:{},this.wheres=null!=(o=r.wheres)?o:{},this.config=n}var n=t.prototype;return n.matchesUrl=function(t){var r,n=this;if(!this.definition.methods.includes(&quot;GET&quot;))return!1;var e=this.template.replace(/[.*+$()[\]]/g,&quot;\\$&amp;&quot;).replace(/(\/?){([^}?]*)(\??)}/g,function(t,r,e,o){var i,u=&quot;(?&lt;&quot;+e+&quot;&gt;&quot;+((null==(i=n.wheres[e])?void 0:i.replace(/(^\^)|(\$$)/g,&quot;&quot;))||&quot;[^/?]+&quot;)+&quot;)&quot;;return o?&quot;(&quot;+r+u+&quot;)?&quot;:&quot;&quot;+r+u}).replace(/^\w+:\/\//,&quot;&quot;),o=t.replace(/^\w+:\/\//,&quot;&quot;).split(&quot;?&quot;),i=o[0],u=o[1],f=null!=(r=new RegExp(&quot;^&quot;+e+&quot;/?$&quot;).exec(i))?r:new RegExp(&quot;^&quot;+e+&quot;/?$&quot;).exec(decodeURI(i));if(f){for(var a in f.groups)f.groups[a]=&quot;string&quot;==typeof f.groups[a]?decodeURIComponent(f.groups[a]):f.groups[a];return{params:f.groups,query:D(u)}}return!1},n.compile=function(t){var r=this;return this.parameterSegments.length?this.template.replace(/{([^}?]+)(\??)}/g,function(n,e,o){var i,u;if(!o&amp;&amp;[null,void 0].includes(t[e]))throw new Error(&quot;Ziggy error: &#039;&quot;+e+&quot;&#039; parameter is required for route &#039;&quot;+r.name+&quot;&#039;.&quot;);if(r.wheres[e]&amp;&amp;!new RegExp(&quot;^&quot;+(o?&quot;(&quot;+r.wheres[e]+&quot;)?&quot;:r.wheres[e])+&quot;$&quot;).test(null!=(u=t[e])?u:&quot;&quot;))throw new Error(&quot;Ziggy error: &#039;&quot;+e+&quot;&#039; parameter &#039;&quot;+t[e]+&quot;&#039; does not match required format &#039;&quot;+r.wheres[e]+&quot;&#039; for route &#039;&quot;+r.name+&quot;&#039;.&quot;);return encodeURI(null!=(i=t[e])?i:&quot;&quot;).replace(/%7C/g,&quot;|&quot;).replace(/%25/g,&quot;%&quot;).replace(/\$/g,&quot;%24&quot;)}).replace(this.config.absolute?/(\.[^/]+?)(\/\/)/:/(^)(\/\/)/,&quot;$1/&quot;).replace(/\/+$/,&quot;&quot;):this.template},r(t,[{key:&quot;template&quot;,get:function(){var t=(this.origin+&quot;/&quot;+this.definition.uri).replace(/\/+$/,&quot;&quot;);return&quot;&quot;===t?&quot;/&quot;:t}},{key:&quot;origin&quot;,get:function(){return this.config.absolute?this.definition.domain?&quot;&quot;+this.config.url.match(/^\w+:\/\//)[0]+this.definition.domain+(this.config.port?&quot;:&quot;+this.config.port:&quot;&quot;):this.config.url:&quot;&quot;}},{key:&quot;parameterSegments&quot;,get:function(){var t,r;return null!=(t=null==(r=this.template.match(/{[^}?]+\??}/g))?void 0:r.map(function(t){return{name:t.replace(/{|\??}/g,&quot;&quot;),required:!/\?}$/.test(t)}}))?t:[]}}])}(),F=/*#__PURE__*/function(t){function e(r,e,o,i){var u;if(void 0===o&amp;&amp;(o=!0),(u=t.call(this)||this).t=null!=i?i:&quot;undefined&quot;!=typeof Ziggy?Ziggy:null==globalThis?void 0:globalThis.Ziggy,u.t=n({},u.t,{absolute:o}),r){if(!u.t.routes[r])throw new Error(&quot;Ziggy error: route &#039;&quot;+r+&quot;&#039; is not in the route list.&quot;);u.i=new P(r,u.t.routes[r],u.t),u.u=u.l(e)}return u}var o,u;u=t,(o=e).prototype=Object.create(u.prototype),o.prototype.constructor=o,i(o,u);var f=e.prototype;return f.toString=function(){var t=this,r=Object.keys(this.u).filter(function(r){return!t.i.parameterSegments.some(function(t){return t.name===r})}).filter(function(t){return&quot;_query&quot;!==t}).reduce(function(r,e){var o;return n({},r,((o={})[e]=t.u[e],o))},{});return this.i.compile(this.u)+function(t,r){var n,e=t,o=function(t){if(!t)return S;if(null!=t.encoder&amp;&amp;&quot;function&quot;!=typeof t.encoder)throw new TypeError(&quot;Encoder has to be a function.&quot;);var r=t.charset||S.charset;if(void 0!==t.charset&amp;&amp;&quot;utf-8&quot;!==t.charset&amp;&amp;&quot;iso-8859-1&quot;!==t.charset)throw new TypeError(&quot;The charset option must be either utf-8, iso-8859-1, or undefined&quot;);var n=s.default;if(void 0!==t.format){if(!h.call(s.formatters,t.format))throw new TypeError(&quot;Unknown format option provided.&quot;);n=t.format}var e=s.formatters[n],o=S.filter;return(&quot;function&quot;==typeof t.filter||m(t.filter))&amp;&amp;(o=t.filter),{addQueryPrefix:&quot;boolean&quot;==typeof t.addQueryPrefix?t.addQueryPrefix:S.addQueryPrefix,allowDots:void 0===t.allowDots?S.allowDots:!!t.allowDots,charset:r,charsetSentinel:&quot;boolean&quot;==typeof t.charsetSentinel?t.charsetSentinel:S.charsetSentinel,delimiter:void 0===t.delimiter?S.delimiter:t.delimiter,encode:&quot;boolean&quot;==typeof t.encode?t.encode:S.encode,encoder:&quot;function&quot;==typeof t.encoder?t.encoder:S.encoder,encodeValuesOnly:&quot;boolean&quot;==typeof t.encodeValuesOnly?t.encodeValuesOnly:S.encodeValuesOnly,filter:o,format:n,formatter:e,serializeDate:&quot;function&quot;==typeof t.serializeDate?t.serializeDate:S.serializeDate,skipNulls:&quot;boolean&quot;==typeof t.skipNulls?t.skipNulls:S.skipNulls,sort:&quot;function&quot;==typeof t.sort?t.sort:null,strictNullHandling:&quot;boolean&quot;==typeof t.strictNullHandling?t.strictNullHandling:S.strictNullHandling}}(r);&quot;function&quot;==typeof o.filter?e=(0,o.filter)(&quot;&quot;,e):m(o.filter)&amp;&amp;(n=o.filter);var i=[];if(&quot;object&quot;!=typeof e||null===e)return&quot;&quot;;var u=g[r&amp;&amp;r.arrayFormat in g?r.arrayFormat:r&amp;&amp;&quot;indices&quot;in r?r.indices?&quot;indices&quot;:&quot;repeat&quot;:&quot;indices&quot;];n||(n=Object.keys(e)),o.sort&amp;&amp;n.sort(o.sort);for(var f=0;f&lt;n.length;++f){var a=n[f];o.skipNulls&amp;&amp;null===e[a]||O(i,k(e[a],a,u,o.strictNullHandling,o.skipNulls,o.encode?o.encoder:null,o.filter,o.sort,o.allowDots,o.serializeDate,o.format,o.formatter,o.encodeValuesOnly,o.charset))}var c=i.join(o.delimiter),l=!0===o.addQueryPrefix?&quot;?&quot;:&quot;&quot;;return o.charsetSentinel&amp;&amp;(l+=&quot;iso-8859-1&quot;===o.charset?&quot;utf8=%26%2310003%3B&amp;&quot;:&quot;utf8=%E2%9C%93&amp;&quot;),c.length&gt;0?l+c:&quot;&quot;}(n({},r,this.u._query),{addQueryPrefix:!0,arrayFormat:&quot;indices&quot;,encodeValuesOnly:!0,skipNulls:!0,encoder:function(t,r){return&quot;boolean&quot;==typeof t?Number(t):r(t)}})},f.v=function(t){var r=this;t?this.t.absolute&amp;&amp;t.startsWith(&quot;/&quot;)&amp;&amp;(t=this.p().host+t):t=this.h();var e={},o=Object.entries(this.t.routes).find(function(n){return e=new P(n[0],n[1],r.t).matchesUrl(t)})||[void 0,void 0];return n({name:o[0]},e,{route:o[1]})},f.h=function(){var t=this.p(),r=t.pathname,n=t.search;return(this.t.absolute?t.host+r:r.replace(this.t.url.replace(/^\w*:\/\/[^/]+/,&quot;&quot;),&quot;&quot;).replace(/^\/+/,&quot;/&quot;))+n},f.current=function(t,r){var e=this.v(),o=e.name,i=e.params,u=e.query,f=e.route;if(!t)return o;var a=new RegExp(&quot;^&quot;+t.replace(/\./g,&quot;\\.&quot;).replace(/\*/g,&quot;.*&quot;)+&quot;$&quot;).test(o);if([null,void 0].includes(r)||!a)return a;var c=new P(o,f,this.t);r=this.l(r,c);var l=n({},i,u);if(Object.values(r).every(function(t){return!t})&amp;&amp;!Object.values(l).some(function(t){return void 0!==t}))return!0;var s=function(t,r){return Object.entries(t).every(function(t){var n=t[0],e=t[1];return Array.isArray(e)&amp;&amp;Array.isArray(r[n])?e.every(function(t){return r[n].includes(t)}):&quot;object&quot;==typeof e&amp;&amp;&quot;object&quot;==typeof r[n]&amp;&amp;null!==e&amp;&amp;null!==r[n]?s(e,r[n]):r[n]==e})};return s(r,l)},f.p=function(){var t,r,n,e,o,i,u=&quot;undefined&quot;!=typeof window?window.location:{},f=u.host,a=u.pathname,c=u.search;return{host:null!=(t=null==(r=this.t.location)?void 0:r.host)?t:void 0===f?&quot;&quot;:f,pathname:null!=(n=null==(e=this.t.location)?void 0:e.pathname)?n:void 0===a?&quot;&quot;:a,search:null!=(o=null==(i=this.t.location)?void 0:i.search)?o:void 0===c?&quot;&quot;:c}},f.has=function(t){return this.t.routes.hasOwnProperty(t)},f.l=function(t,r){var e=this;void 0===t&amp;&amp;(t={}),void 0===r&amp;&amp;(r=this.i),null!=t||(t={}),t=[&quot;string&quot;,&quot;number&quot;].includes(typeof t)?[t]:t;var o=r.parameterSegments.filter(function(t){return!e.t.defaults[t.name]});if(Array.isArray(t))t=t.reduce(function(t,r,e){var i,u;return n({},t,o[e]?((i={})[o[e].name]=r,i):&quot;object&quot;==typeof r?r:((u={})[r]=&quot;&quot;,u))},{});else if(1===o.length&amp;&amp;!t[o[0].name]&amp;&amp;(t.hasOwnProperty(Object.values(r.bindings)[0])||t.hasOwnProperty(&quot;id&quot;))){var i;(i={})[o[0].name]=t,t=i}return n({},this.m(r),this.j(t,r))},f.m=function(t){var r=this;return t.parameterSegments.filter(function(t){return r.t.defaults[t.name]}).reduce(function(t,e,o){var i,u=e.name;return n({},t,((i={})[u]=r.t.defaults[u],i))},{})},f.j=function(t,r){var e=r.bindings,o=r.parameterSegments;return Object.entries(t).reduce(function(t,r){var i,u,f=r[0],a=r[1];if(!a||&quot;object&quot;!=typeof a||Array.isArray(a)||!o.some(function(t){return t.name===f}))return n({},t,((u={})[f]=a,u));if(!a.hasOwnProperty(e[f])){if(!a.hasOwnProperty(&quot;id&quot;))throw new Error(&quot;Ziggy error: object passed as &#039;&quot;+f+&quot;&#039; parameter is missing route model binding key &#039;&quot;+e[f]+&quot;&#039;.&quot;);e[f]=&quot;id&quot;}return n({},t,((i={})[f]=a[e[f]],i))},{})},f.valueOf=function(){return this.toString()},r(e,[{key:&quot;params&quot;,get:function(){var t=this.v();return n({},t.params,t.query)}},{key:&quot;routeParams&quot;,get:function(){return this.v().params}},{key:&quot;queryParams&quot;,get:function(){return this.v().query}}])}(/*#__PURE__*/f(String));return function(t,r,n,e){var o=new F(t,r,n,e);return t?o.toString():o}});
+&lt;/script&gt;        &lt;link rel=&quot;preload&quot; as=&quot;style&quot; href=&quot;http://localhost/build/assets/app-CshSF23B.css&quot; /&gt;&lt;link rel=&quot;modulepreload&quot; href=&quot;http://localhost/build/assets/app-CI6-uSIW.js&quot; /&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;http://localhost/build/assets/app-CshSF23B.css&quot; /&gt;&lt;script type=&quot;module&quot; src=&quot;http://localhost/build/assets/app-CI6-uSIW.js&quot;&gt;&lt;/script&gt;            &lt;/head&gt;
+    &lt;body class=&quot;font-sans antialiased bg-base-100&quot;&gt;
+        &lt;div id=&quot;app&quot; data-page=&quot;{&amp;quot;component&amp;quot;:&amp;quot;Auth\/ForgotPassword&amp;quot;,&amp;quot;props&amp;quot;:{&amp;quot;errors&amp;quot;:{},&amp;quot;name&amp;quot;:&amp;quot;UserManager&amp;quot;,&amp;quot;quote&amp;quot;:{&amp;quot;message&amp;quot;:&amp;quot;The biggest battle is the war against ignorance.&amp;quot;,&amp;quot;author&amp;quot;:&amp;quot;Mustafa Kemal Atat\u00fcrk&amp;quot;},&amp;quot;auth&amp;quot;:{&amp;quot;user&amp;quot;:null},&amp;quot;ziggy&amp;quot;:{&amp;quot;url&amp;quot;:&amp;quot;http:\/\/localhost&amp;quot;,&amp;quot;port&amp;quot;:null,&amp;quot;defaults&amp;quot;:[],&amp;quot;routes&amp;quot;:{&amp;quot;register&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;register&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;login&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;login&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.request&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;forgot-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.email&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;forgot-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;password.reset&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;reset-password\/{token}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;token&amp;quot;]},&amp;quot;password.store&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;reset-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;verification.notice&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;verify-email&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;verification.verify&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;verify-email\/{id}\/{hash}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;,&amp;quot;hash&amp;quot;]},&amp;quot;verification.send&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;email\/verification-notification&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;password.confirm&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;confirm-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;PUT&amp;quot;]},&amp;quot;logout&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;logout&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;user.index&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;\/&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;user.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/edit&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;user.changePassword&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/changePassword&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;user.delete&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/delete&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;DELETE&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.dashboard&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;admin.users&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;admin.users.edit&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/edit&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.users.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/update&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;PUT&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.users.delete&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/delete&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;DELETE&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;storage.local&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;storage\/{path}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;wheres&amp;quot;:{&amp;quot;path&amp;quot;:&amp;quot;.*&amp;quot;},&amp;quot;parameters&amp;quot;:[&amp;quot;path&amp;quot;]}},&amp;quot;location&amp;quot;:&amp;quot;http:\/\/localhost\/forgot-password&amp;quot;},&amp;quot;flash&amp;quot;:{&amp;quot;type&amp;quot;:null,&amp;quot;message&amp;quot;:null},&amp;quot;status&amp;quot;:null},&amp;quot;url&amp;quot;:&amp;quot;\/forgot-password&amp;quot;,&amp;quot;version&amp;quot;:&amp;quot;5e7448cf8010c92df97ff203a50152f0&amp;quot;,&amp;quot;clearHistory&amp;quot;:false,&amp;quot;encryptHistory&amp;quot;:false}&quot;&gt;&lt;/div&gt;    &lt;/body&gt;
+&lt;/html&gt;
+</code>
+ </pre>
+    </span>
+<span id="execution-results-GETforgot-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETforgot-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETforgot-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETforgot-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETforgot-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETforgot-password" data-method="GET"
+      data-path="forgot-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETforgot-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETforgot-password"
+                    onclick="tryItOut('GETforgot-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETforgot-password"
+                    onclick="cancelTryOut('GETforgot-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETforgot-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>forgot-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETforgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETforgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-POSTforgot-password">Handle an incoming password reset link request.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTforgot-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/forgot-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"gbailey@example.net\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/forgot-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "gbailey@example.net"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTforgot-password">
+</span>
+<span id="execution-results-POSTforgot-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTforgot-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTforgot-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTforgot-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTforgot-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTforgot-password" data-method="POST"
+      data-path="forgot-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTforgot-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTforgot-password"
+                    onclick="tryItOut('POSTforgot-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTforgot-password"
+                    onclick="cancelTryOut('POSTforgot-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTforgot-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>forgot-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTforgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTforgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTforgot-password"
+               value="gbailey@example.net"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>gbailey@example.net</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-GETreset-password--token-">Display the password reset view.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETreset-password--token-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/reset-password/architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/reset-password/architecto"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETreset-password--token-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+link: &lt;http://localhost/build/assets/app-CshSF23B.css&gt;; rel=&quot;preload&quot;; as=&quot;style&quot;, &lt;http://localhost/build/assets/app-CI6-uSIW.js&gt;; rel=&quot;modulepreload&quot;
+vary: X-Inertia
+set-cookie: XSRF-TOKEN=eyJpdiI6Ik9NQXJobURrdUlyZTZPMHNlS3Q2ZHc9PSIsInZhbHVlIjoiMm4xUGxhSVA4VFdXY1dpTk9mSGZTWnFiSzUraXVMWDNkTEMzLzMwYWRwS2pFcHh3TFUvVE5uOVU2N3NGZG1WTDdMenplNW5PQTQ0L0N3cVNOZklKeWtpeTQ0UERKYVhySmxCNFJoUnltYmw1OTRkYkZGaWFKbElwRWlzSktQcGQiLCJtYWMiOiI2MDU1YTg4YWUyMTM1ZTIwMjRkMGJkN2QyZDMwNDQ1NzdkZmU3ODAwMGI4ODE5ZmU0ZGIzM2VmN2FhNTY3YjUzIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6ImVHckNDM29zbXB1Rm01ZUxjMnlnZmc9PSIsInZhbHVlIjoiV3JKOTFhUGl5c2NKM1VZQitoODlZc01UVEVmRm9RbVpPZEJnRkFjZmhxa2hVQllmQXRhMVNadGdsbmZRV0haK1pPZ05GV01rN0d0LzRldWVDNnhsQTA2dmJEaEtxdXNvbDZzQjJBWFh6WHhQSGp3bTBDaWN3dmVhM3hqdEQ4cHciLCJtYWMiOiIyNTNjZjI2NDczMGM1NDIxZjEyMmQzZDAyMjlkOWYxMjEyZmM0ZjY1M2M0MzI0ZDIyMTJhMmRhMTJjYTRlNDc3IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;winter&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        &lt;title inertia&gt;UserManager&lt;/title&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;Object.assign(Ziggy.routes,{&quot;register&quot;:{&quot;uri&quot;:&quot;register&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;login&quot;:{&quot;uri&quot;:&quot;login&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.request&quot;:{&quot;uri&quot;:&quot;forgot-password&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.email&quot;:{&quot;uri&quot;:&quot;forgot-password&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;password.reset&quot;:{&quot;uri&quot;:&quot;reset-password\/{token}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;token&quot;]},&quot;password.store&quot;:{&quot;uri&quot;:&quot;reset-password&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;verification.notice&quot;:{&quot;uri&quot;:&quot;verify-email&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;verification.verify&quot;:{&quot;uri&quot;:&quot;verify-email\/{id}\/{hash}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;id&quot;,&quot;hash&quot;]},&quot;verification.send&quot;:{&quot;uri&quot;:&quot;email\/verification-notification&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;password.confirm&quot;:{&quot;uri&quot;:&quot;confirm-password&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;password.update&quot;:{&quot;uri&quot;:&quot;password&quot;,&quot;methods&quot;:[&quot;PUT&quot;]},&quot;logout&quot;:{&quot;uri&quot;:&quot;logout&quot;,&quot;methods&quot;:[&quot;POST&quot;]},&quot;user.index&quot;:{&quot;uri&quot;:&quot;\/&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;user.update&quot;:{&quot;uri&quot;:&quot;user\/{id}\/edit&quot;,&quot;methods&quot;:[&quot;POST&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;user.changePassword&quot;:{&quot;uri&quot;:&quot;user\/{id}\/changePassword&quot;,&quot;methods&quot;:[&quot;POST&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;user.delete&quot;:{&quot;uri&quot;:&quot;user\/{id}\/delete&quot;,&quot;methods&quot;:[&quot;DELETE&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.dashboard&quot;:{&quot;uri&quot;:&quot;admin&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;admin.users&quot;:{&quot;uri&quot;:&quot;admin\/users&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;]},&quot;admin.users.edit&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/edit&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.users.update&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/update&quot;,&quot;methods&quot;:[&quot;PUT&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;admin.users.delete&quot;:{&quot;uri&quot;:&quot;admin\/users\/{id}\/delete&quot;,&quot;methods&quot;:[&quot;DELETE&quot;],&quot;parameters&quot;:[&quot;id&quot;]},&quot;storage.local&quot;:{&quot;uri&quot;:&quot;storage\/{path}&quot;,&quot;methods&quot;:[&quot;GET&quot;,&quot;HEAD&quot;],&quot;wheres&quot;:{&quot;path&quot;:&quot;.*&quot;},&quot;parameters&quot;:[&quot;path&quot;]}});&lt;/script&gt;        &lt;link rel=&quot;preload&quot; as=&quot;style&quot; href=&quot;http://localhost/build/assets/app-CshSF23B.css&quot; /&gt;&lt;link rel=&quot;modulepreload&quot; href=&quot;http://localhost/build/assets/app-CI6-uSIW.js&quot; /&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;http://localhost/build/assets/app-CshSF23B.css&quot; /&gt;&lt;script type=&quot;module&quot; src=&quot;http://localhost/build/assets/app-CI6-uSIW.js&quot;&gt;&lt;/script&gt;            &lt;/head&gt;
+    &lt;body class=&quot;font-sans antialiased bg-base-100&quot;&gt;
+        &lt;div id=&quot;app&quot; data-page=&quot;{&amp;quot;component&amp;quot;:&amp;quot;Auth\/ResetPassword&amp;quot;,&amp;quot;props&amp;quot;:{&amp;quot;errors&amp;quot;:{},&amp;quot;name&amp;quot;:&amp;quot;UserManager&amp;quot;,&amp;quot;quote&amp;quot;:{&amp;quot;message&amp;quot;:&amp;quot;We must ship.&amp;quot;,&amp;quot;author&amp;quot;:&amp;quot;Taylor Otwell&amp;quot;},&amp;quot;auth&amp;quot;:{&amp;quot;user&amp;quot;:null},&amp;quot;ziggy&amp;quot;:{&amp;quot;url&amp;quot;:&amp;quot;http:\/\/localhost&amp;quot;,&amp;quot;port&amp;quot;:null,&amp;quot;defaults&amp;quot;:[],&amp;quot;routes&amp;quot;:{&amp;quot;register&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;register&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;login&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;login&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.request&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;forgot-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.email&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;forgot-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;password.reset&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;reset-password\/{token}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;token&amp;quot;]},&amp;quot;password.store&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;reset-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;verification.notice&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;verify-email&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;verification.verify&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;verify-email\/{id}\/{hash}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;,&amp;quot;hash&amp;quot;]},&amp;quot;verification.send&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;email\/verification-notification&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;password.confirm&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;confirm-password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;password.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;password&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;PUT&amp;quot;]},&amp;quot;logout&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;logout&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;]},&amp;quot;user.index&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;\/&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;user.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/edit&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;user.changePassword&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/changePassword&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;POST&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;user.delete&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;user\/{id}\/delete&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;DELETE&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.dashboard&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;admin.users&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;]},&amp;quot;admin.users.edit&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/edit&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.users.update&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/update&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;PUT&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;admin.users.delete&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;admin\/users\/{id}\/delete&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;DELETE&amp;quot;],&amp;quot;parameters&amp;quot;:[&amp;quot;id&amp;quot;]},&amp;quot;storage.local&amp;quot;:{&amp;quot;uri&amp;quot;:&amp;quot;storage\/{path}&amp;quot;,&amp;quot;methods&amp;quot;:[&amp;quot;GET&amp;quot;,&amp;quot;HEAD&amp;quot;],&amp;quot;wheres&amp;quot;:{&amp;quot;path&amp;quot;:&amp;quot;.*&amp;quot;},&amp;quot;parameters&amp;quot;:[&amp;quot;path&amp;quot;]}},&amp;quot;location&amp;quot;:&amp;quot;http:\/\/localhost\/reset-password\/architecto&amp;quot;},&amp;quot;flash&amp;quot;:{&amp;quot;type&amp;quot;:null,&amp;quot;message&amp;quot;:null},&amp;quot;email&amp;quot;:null,&amp;quot;token&amp;quot;:&amp;quot;architecto&amp;quot;},&amp;quot;url&amp;quot;:&amp;quot;\/reset-password\/architecto&amp;quot;,&amp;quot;version&amp;quot;:&amp;quot;5e7448cf8010c92df97ff203a50152f0&amp;quot;,&amp;quot;clearHistory&amp;quot;:false,&amp;quot;encryptHistory&amp;quot;:false}&quot;&gt;&lt;/div&gt;    &lt;/body&gt;
+&lt;/html&gt;
+</code>
+ </pre>
+    </span>
+<span id="execution-results-GETreset-password--token-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETreset-password--token-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETreset-password--token-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETreset-password--token-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETreset-password--token-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETreset-password--token-" data-method="GET"
+      data-path="reset-password/{token}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETreset-password--token-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETreset-password--token-"
+                    onclick="tryItOut('GETreset-password--token-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETreset-password--token-"
+                    onclick="cancelTryOut('GETreset-password--token-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETreset-password--token-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>reset-password/{token}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETreset-password--token-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETreset-password--token-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>token</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="token"                data-endpoint="GETreset-password--token-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-POSTreset-password">Handle an incoming new password request.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTreset-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/reset-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"token\": \"architecto\",
+    \"email\": \"zbailey@example.net\",
+    \"password\": \"architecto\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/reset-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "token": "architecto",
+    "email": "zbailey@example.net",
+    "password": "architecto"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTreset-password">
+</span>
+<span id="execution-results-POSTreset-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTreset-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTreset-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTreset-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTreset-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTreset-password" data-method="POST"
+      data-path="reset-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTreset-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTreset-password"
+                    onclick="tryItOut('POSTreset-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTreset-password"
+                    onclick="cancelTryOut('POSTreset-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTreset-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>reset-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTreset-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTreset-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>token</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="token"                data-endpoint="POSTreset-password"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTreset-password"
+               value="zbailey@example.net"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>zbailey@example.net</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTreset-password"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-GETverify-email">Display the email verification prompt.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETverify-email">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/verify-email" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/verify-email"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETverify-email">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6ImdvN0IzQjBFS0JHZlZGR1VTYW9lcGc9PSIsInZhbHVlIjoiT2k2Q0ZlQURWcWlGTGtvd2VqMFNZNGdlMTA0VlphK3ZGWGlUcTJ0TTg0eWpiZWJQdVFEU1pnVVVhQmpTaE1WYzNic0VHUEF1aUJSWWZuaWN5dmJWSmRraGhIR1VMWnp1RDhRek0vNm1IOHUwVW1KMDJGeDFadHZZb21TMndDRTkiLCJtYWMiOiJmNDJhNGUwMGUxNjNlNWNlMjhkMjg3YjI4ODFkYzc0ZDk0OTJmZGZmOTkyNjlhMTI4NzRjMmNmYjdjMzZkNDNlIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6ImhtS1l6RWRVVi9jM2xHM25kdGptNFE9PSIsInZhbHVlIjoiRXhYUW1HWU54dVhXdC95cENoRGhMenVDQlkvNHgzMjNkTS8yZ2prUS84NDdWd1VPSlhkYXlucGtGbHVlcDVZUllybzk0ZnZIeGNzalYyRm1kRDkzVDhKaHowSTlUQ1l0MDhNVXFRckJnL1h1MzRyYmhFQmJWR2t3N1JEdEFqc2oiLCJtYWMiOiJmNzJlNTFmZTJlYTRhNzE3ZTA0OGUyNjU5NDNhMDg4NzIwNmQ2YTQ5NTI4M2Q2YzViODU5ZWZlNmE2ZTQ2ZGQzIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETverify-email" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETverify-email"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETverify-email"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETverify-email" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETverify-email">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETverify-email" data-method="GET"
+      data-path="verify-email"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETverify-email', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETverify-email"
+                    onclick="tryItOut('GETverify-email');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETverify-email"
+                    onclick="cancelTryOut('GETverify-email');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETverify-email"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>verify-email</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETverify-email"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETverify-email"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-GETverify-email--id---hash-">Mark the authenticated user&#039;s email address as verified.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETverify-email--id---hash-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/verify-email/architecto/architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/verify-email/architecto/architecto"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETverify-email--id---hash-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6InIvQ3Uvc3ZVbXNmVkhaNlJ3V3h1bmc9PSIsInZhbHVlIjoiSENISTlWZ09rZ0xoc2NNTFk5aVlGNE9CK0tSNHh6SjRWOEM2VW05TWpWR1N3Q2hjYnVYT2U4UEFmVXJyVlFWSitRYkFVN0JZOHV6a3NHaGIrVjdHSnk1R0NXbnZEWnBSMTIyMk9NU2NwZGFDYy9LUm5tYmJqVXJ3S3MxMSs0ajAiLCJtYWMiOiI3Yzg4NTkwNGU3YzQ0MmE5MjYyZDg2YzFhOTVkYjM0Yzc5MGQ2MWJjMzliNWY3NGE2ZWUwMDg0NjI5MmUyNWZmIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6Ijl5b3Q1VGY2aVR3c0Jzd2FiZlJ3aVE9PSIsInZhbHVlIjoiNWJyUElNMGpwOTg1dkNRcFp1eVo1MldDYitEbEhkWWVjTldBaVoxZnZaUFl0MjBjK2FtSzJ6N29zbVJxS3VHSERERGo3ME5OUjl4aGxub1dIL25aamh3SU83a3NWenZvRTlQd1ZKNlZBbHltbDlqK2g3S1daUW50TlZkeklLY04iLCJtYWMiOiJiMWJjNjc0OGIwNDYxNDEzMWNlMzJjYWMzZDk5YWQwYjkxYzYyYzYxMmMwYzMyYzczOTI2YzQ0MzA0NWEwNjE3IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETverify-email--id---hash-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETverify-email--id---hash-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETverify-email--id---hash-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETverify-email--id---hash-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETverify-email--id---hash-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETverify-email--id---hash-" data-method="GET"
+      data-path="verify-email/{id}/{hash}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETverify-email--id---hash-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETverify-email--id---hash-"
+                    onclick="tryItOut('GETverify-email--id---hash-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETverify-email--id---hash-"
+                    onclick="cancelTryOut('GETverify-email--id---hash-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETverify-email--id---hash-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>verify-email/{id}/{hash}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETverify-email--id---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETverify-email--id---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETverify-email--id---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the verify email. Example: <code>architecto</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>hash</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="hash"                data-endpoint="GETverify-email--id---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-POSTemail-verification-notification">Send a new email verification notification.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTemail-verification-notification">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/email/verification-notification" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/email/verification-notification"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTemail-verification-notification">
+</span>
+<span id="execution-results-POSTemail-verification-notification" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTemail-verification-notification"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTemail-verification-notification"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTemail-verification-notification" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTemail-verification-notification">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTemail-verification-notification" data-method="POST"
+      data-path="email/verification-notification"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTemail-verification-notification', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTemail-verification-notification"
+                    onclick="tryItOut('POSTemail-verification-notification');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTemail-verification-notification"
+                    onclick="cancelTryOut('POSTemail-verification-notification');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTemail-verification-notification"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>email/verification-notification</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTemail-verification-notification"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTemail-verification-notification"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-GETconfirm-password">Show the confirm password view.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETconfirm-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/confirm-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/confirm-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETconfirm-password">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6ImVaMmhsdEJuVm44RzJHQi9BNlVtN2c9PSIsInZhbHVlIjoicktGTzVhL3ZxRkJYc1VqdnZmcHQwdlY3ZmFXbUlNRFQrNnJHWVg4Z3RYMVNRUDZqbmJteUUyNDV3c0ZTelBlbjUvT0tmYk5UbEwvZnI3TlRLRWRtOFlpbm5kSFRrQVZhT0k5RU1yV0ZEQTlFdE8zVzVpaUo1SkhOdWY3MEJ2L0YiLCJtYWMiOiJiODRmNWI4NjhjOTg2YzE2NTMxZGUyN2I5YThlZDgxOTgzZGM0ZDMzNTdkMTQyMjg0MWFkYWNjZjRhMGU3ZDllIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6Ijc1YytPeG5abFpscTBISHJWRWpvNVE9PSIsInZhbHVlIjoiTndoUEJrQWl5Z2FEUVdQYVN1NHBMVmI2UGUvM0ZhQVhTdjlmNmZNWDZWTk1YSURmajU4UWZZQ2ZVWmhRK0kyVHpOQzd4YXkrOWlIeEtrNjhPekxEYXRTczJ6UzdTZ2k4R1M1eHpOMWxOYzdQZHI0c0RxRWZYZk5ML2lmOWlON1QiLCJtYWMiOiIwZGFjNzFlZGZkZmE1YmQyODM0ZWJlNDYzMjRjN2NhYTlmMzcyOWRhMDFiNDRmNDhlODNkYzZlODFjNDc3N2M5IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETconfirm-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETconfirm-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETconfirm-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETconfirm-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETconfirm-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETconfirm-password" data-method="GET"
+      data-path="confirm-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETconfirm-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETconfirm-password"
+                    onclick="tryItOut('GETconfirm-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETconfirm-password"
+                    onclick="cancelTryOut('GETconfirm-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETconfirm-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>confirm-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETconfirm-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETconfirm-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-POSTconfirm-password">Confirm the user&#039;s password.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTconfirm-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/confirm-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/confirm-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTconfirm-password">
+</span>
+<span id="execution-results-POSTconfirm-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTconfirm-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTconfirm-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTconfirm-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTconfirm-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTconfirm-password" data-method="POST"
+      data-path="confirm-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTconfirm-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTconfirm-password"
+                    onclick="tryItOut('POSTconfirm-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTconfirm-password"
+                    onclick="cancelTryOut('POSTconfirm-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTconfirm-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>confirm-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTconfirm-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTconfirm-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-PUTpassword">Update the user&#039;s password.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTpassword">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"current_password\": \"architecto\",
+    \"password\": \"architecto\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "current_password": "architecto",
+    "password": "architecto"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTpassword">
+</span>
+<span id="execution-results-PUTpassword" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTpassword"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTpassword"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTpassword" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTpassword">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTpassword" data-method="PUT"
+      data-path="password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTpassword', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTpassword"
+                    onclick="tryItOut('PUTpassword');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTpassword"
+                    onclick="cancelTryOut('PUTpassword');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTpassword"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTpassword"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTpassword"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>current_password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="current_password"                data-endpoint="PUTpassword"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="PUTpassword"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-POSTlogout">Destroy an authenticated session.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTlogout">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/logout" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/logout"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTlogout">
+</span>
+<span id="execution-results-POSTlogout" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTlogout"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTlogout"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTlogout" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTlogout">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTlogout" data-method="POST"
+      data-path="logout"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTlogout', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTlogout"
+                    onclick="tryItOut('POSTlogout');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTlogout"
+                    onclick="cancelTryOut('POSTlogout');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTlogout"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>logout</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTlogout"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTlogout"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-GETadmin">GET admin</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETadmin">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/admin" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/admin"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETadmin">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6InVUb3FxMm40U1Npc0pTU1hDWVVyV0E9PSIsInZhbHVlIjoidFhKOXExNGNBK2JIajJRT2xsVEh3cE5CRFMybDJraHU2c2RJT1UvTDlSdTdtN1NXUG9zdFZ2ZWhpb0xjRTNMNkIrNHRCUGd4R1lURDJqSSt4V0phWkErSytjTVBzaW8weDJ3Mjd2L2c1QjRFYmNWR21pY1dMVktyQ0ZDR0NNVmwiLCJtYWMiOiI2MTRiZDRmODIyY2Q1NWIzYWE5Zjc2MjBhZWUxY2MzNDQ3YmVkZjU4ODFhNmQ5NTBhOWI1ZjE3NWRhOWZlM2U0IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6Im5QNzgxNEptU1VrOEQ1dy92aGI1T0E9PSIsInZhbHVlIjoieFdTaG1OOFAxKzhlazYyTmJUdDd0eHlVdmFJMHA4MFVBZlh0a3RsQTQzZHFveGp6aXZqYVBNSGRYT2JTWHRSNU1jUGJXM2d6a3BpTDYvbEZYM1pscngwaTlOZEZ1eE51MHZYekFiQ0ROVndTTFVNdzNJN3p3MlJlU1g4MmVmVzYiLCJtYWMiOiIxNTIxYjUzNGFkZTYxYWJmNDJkNTI1ZTg4MGUxODIwOTBiMDYxYmQ5OWM2ODg0NTllMzM1ODFiZTEzNDRhZWFjIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETadmin" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETadmin"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETadmin"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETadmin" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETadmin">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETadmin" data-method="GET"
+      data-path="admin"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETadmin', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETadmin"
+                    onclick="tryItOut('GETadmin');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETadmin"
+                    onclick="cancelTryOut('GETadmin');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETadmin"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>admin</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETadmin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETadmin"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-GETadmin-users">Display a listing of the users.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETadmin-users">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/admin/users" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/admin/users"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETadmin-users">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6Im5VdWtnTEdEMXhlTmVCMG5ieHp1OFE9PSIsInZhbHVlIjoiZVB1NCt4R1ozdjgyS2lEbVBXaER6cE53bWdSWTBhRURZL3pvclZ1SCtBV3pFV3ErMTlDSzlzZ1pHVzZPUlg2L2FLN2p3c2lvN3J3NEFjVmpWcVUxSldybEMxVVpyTFBkQm0vU01Ec1NXMnljaUVIRGt2KzdlMldqamVIaXVDbVIiLCJtYWMiOiJhZjkwZjUyMTA1M2Q4ZWMyNmY2ODA3YmJmYTQwM2QxMDkwZTM3ZTM3YTk0Y2FmMDUxZjNlZmRjOTRkOWExY2E0IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6Ii9LVnhQeE91d1NFeHNzb3MzdG9zRnc9PSIsInZhbHVlIjoiL3BIMVlkdHgwaVJQdXJ2SGgyK2xsSVZZd2xBaUFzd083QTNwT2NXRWNPZGlDamFQRFAxQWN0SnBYRmZ0ajIyeTNBSHhPaEYxMVlWRDEwdTdGaTFBTURmZlYwTUQvYkVxcHZWb1pRMjBhWWVyUGJmL0F5cmpaT21YYTNza2RKMjYiLCJtYWMiOiIyMTlkMDdjZjI2ODU0YmIyZmMwYWQyOWZhZmVlZjNjN2Q2ODIyMDk5MzQxZGMwZWNhOTFkZWI3N2JjZGJlZGM5IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETadmin-users" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETadmin-users"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETadmin-users"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETadmin-users" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETadmin-users">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETadmin-users" data-method="GET"
+      data-path="admin/users"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETadmin-users', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETadmin-users"
+                    onclick="tryItOut('GETadmin-users');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETadmin-users"
+                    onclick="cancelTryOut('GETadmin-users');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETadmin-users"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>admin/users</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETadmin-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETadmin-users"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-GETadmin-users--id--edit">Show the form for editing the specified user.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETadmin-users--id--edit">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/admin/users/architecto/edit" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/admin/users/architecto/edit"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETadmin-users--id--edit">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+set-cookie: XSRF-TOKEN=eyJpdiI6InI1WWdsb2l0ZVQyRUlLMDJ6VGR5WFE9PSIsInZhbHVlIjoiZStTYUtHSmN3OXEzTHU2RTJvNEhOV1gveXNXdk5YSVdzZEd2RTZSTEE5UkJ6d2ZHalRGamhkbS9Qb3BQdkJsMHRCWWU4MjVEY1E5WU1PMkJ2MVZEdXhPTFpBcy9NR3dTTXBKL1JqZHFFYXBHK1lQbU5UR2s2YlZNRWxDclltdVAiLCJtYWMiOiIxNTQ5ZDliZjhkM2Y2MDA2ZmYyNjJhNGZlMzk3OWJiMGU0NTJhN2E3OTc3NDA0NTI4ZmVmZTAyZmI4ZWYyOWI5IiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; samesite=lax; usermanager_session=eyJpdiI6ImlpNE1aT3ljeVhTbUZMV2gxNEFnZnc9PSIsInZhbHVlIjoiQ0dhWkxvMWQ1dnBxYmI1U2I4S1dWRmRWbHBQM042NENrKzBWc09ZdFo0cE9CaCtuWVBPMklUb2N4emdoTjRhdmRZNGJJaEh4NmF4M1BURVI2THBWNkVQbExDR1crUUtYQis5SlFGZXdFd2p4OHhYNGJVUWpKSmhOMHZmUStMZTgiLCJtYWMiOiIyZGZhMDA4MzQwNmE2YmQwYmJiZjEyY2YxMGYxNDdlODVkMmU2ZjIwNjk3YjIzMWQwNTA2MTE5NzljZGI4MDcxIiwidGFnIjoiIn0%3D; expires=Sun, 25 May 2025 23:53:07 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETadmin-users--id--edit" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETadmin-users--id--edit"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETadmin-users--id--edit"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETadmin-users--id--edit" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETadmin-users--id--edit">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETadmin-users--id--edit" data-method="GET"
+      data-path="admin/users/{id}/edit"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETadmin-users--id--edit', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETadmin-users--id--edit"
+                    onclick="tryItOut('GETadmin-users--id--edit');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETadmin-users--id--edit"
+                    onclick="cancelTryOut('GETadmin-users--id--edit');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETadmin-users--id--edit"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>admin/users/{id}/edit</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETadmin-users--id--edit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETadmin-users--id--edit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETadmin-users--id--edit"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-PUTadmin-users--id--update">Update the specified user in storage.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-PUTadmin-users--id--update">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/admin/users/architecto/update" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"b\",
+    \"surname\": \"n\",
+    \"email\": \"ashly64@example.com\",
+    \"roles\": [
+        \"architecto\"
+    ]
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/admin/users/architecto/update"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "b",
+    "surname": "n",
+    "email": "ashly64@example.com",
+    "roles": [
+        "architecto"
+    ]
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTadmin-users--id--update">
+</span>
+<span id="execution-results-PUTadmin-users--id--update" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTadmin-users--id--update"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTadmin-users--id--update"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTadmin-users--id--update" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTadmin-users--id--update">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTadmin-users--id--update" data-method="PUT"
+      data-path="admin/users/{id}/update"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTadmin-users--id--update', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTadmin-users--id--update"
+                    onclick="tryItOut('PUTadmin-users--id--update');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTadmin-users--id--update"
+                    onclick="cancelTryOut('PUTadmin-users--id--update');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTadmin-users--id--update"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>admin/users/{id}/update</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTadmin-users--id--update"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTadmin-users--id--update"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="PUTadmin-users--id--update"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>architecto</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTadmin-users--id--update"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>surname</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="surname"                data-endpoint="PUTadmin-users--id--update"
+               value="n"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>n</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="PUTadmin-users--id--update"
+               value="ashly64@example.com"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>ashly64@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>roles</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="roles[0]"                data-endpoint="PUTadmin-users--id--update"
+               data-component="body">
+        <input type="text" style="display: none"
+               name="roles[1]"                data-endpoint="PUTadmin-users--id--update"
+               data-component="body">
+    <br>
+<p>The <code>name</code> of an existing record in the roles table.</p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-DELETEadmin-users--id--delete">Remove the specified user from storage.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-DELETEadmin-users--id--delete">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost/admin/users/architecto/delete" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/admin/users/architecto/delete"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEadmin-users--id--delete">
+</span>
+<span id="execution-results-DELETEadmin-users--id--delete" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEadmin-users--id--delete"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEadmin-users--id--delete"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEadmin-users--id--delete" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEadmin-users--id--delete">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEadmin-users--id--delete" data-method="DELETE"
+      data-path="admin/users/{id}/delete"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEadmin-users--id--delete', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEadmin-users--id--delete"
+                    onclick="tryItOut('DELETEadmin-users--id--delete');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEadmin-users--id--delete"
+                    onclick="cancelTryOut('DELETEadmin-users--id--delete');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEadmin-users--id--delete"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>admin/users/{id}/delete</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEadmin-users--id--delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEadmin-users--id--delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="DELETEadmin-users--id--delete"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the user. Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-GETstorage--path-">GET storage/{path}</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETstorage--path-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/storage/|{+-0p" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/storage/|{+-0p"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETstorage--path-">
+            <blockquote>
+            <p>Example response (403):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETstorage--path-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETstorage--path-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETstorage--path-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETstorage--path-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETstorage--path-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETstorage--path-" data-method="GET"
+      data-path="storage/{path}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETstorage--path-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETstorage--path-"
+                    onclick="tryItOut('GETstorage--path-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETstorage--path-"
+                    onclick="cancelTryOut('GETstorage--path-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETstorage--path-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>storage/{path}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETstorage--path-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETstorage--path-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>path</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="path"                data-endpoint="GETstorage--path-"
+               value="|{+-0p"
+               data-component="url">
+    <br>
+<p>Example: <code>|{+-0p</code></p>
+            </div>
+                    </form>
+
+                <h1 id="user-management">User Management</h1>
+
+    
+
+                                <h2 id="user-management-GET-">Display the user dashboard.</h2>
+
+<p>
+</p>
+
+<p>Redirects admin users to the admin users page with an error message.
+Otherwise, renders the user dashboard with the authenticated user's data.</p>
+
+<span id="example-requests-GET-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GET-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;user&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;John&quot;,
+        &quot;surname&quot;: &quot;Doe&quot;,
+        &quot;email&quot;: &quot;john.doe@example.com&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;You are not allowed to access this page&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GET-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GET-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GET-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GET-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GET-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GET-" data-method="GET"
+      data-path="/"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GET-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GET-"
+                    onclick="tryItOut('GET-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GET-"
+                    onclick="cancelTryOut('GET-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GET-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>/</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GET-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GET-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="user-management-POSTuser--id--changePassword">Change the specified user&#039;s password.</h2>
+
+<p>
+</p>
+
+<p>Validates the request data, checks the current password, and updates the password.
+If the user is not found or the current password is incorrect, redirects back with an error message.</p>
+
+<span id="example-requests-POSTuser--id--changePassword">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/user/1/changePassword" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"current_password\": \"oldpassword123\",
+    \"password\": \"newpassword123\",
+    \"password_confirmation\": \"newpassword123\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/user/1/changePassword"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "current_password": "oldpassword123",
+    "password": "newpassword123",
+    "password_confirmation": "newpassword123"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTuser--id--changePassword">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Password changed successfully&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Current password is incorrect&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;User not found&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTuser--id--changePassword" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTuser--id--changePassword"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTuser--id--changePassword"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTuser--id--changePassword" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTuser--id--changePassword">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTuser--id--changePassword" data-method="POST"
+      data-path="user/{id}/changePassword"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTuser--id--changePassword', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTuser--id--changePassword"
+                    onclick="tryItOut('POSTuser--id--changePassword');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTuser--id--changePassword"
+                    onclick="cancelTryOut('POSTuser--id--changePassword');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTuser--id--changePassword"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>user/{id}/changePassword</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTuser--id--changePassword"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTuser--id--changePassword"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="POSTuser--id--changePassword"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the user whose password is being changed. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>current_password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="current_password"                data-endpoint="POSTuser--id--changePassword"
+               value="oldpassword123"
+               data-component="body">
+    <br>
+<p>The user's current password. Example: <code>oldpassword123</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTuser--id--changePassword"
+               value="newpassword123"
+               data-component="body">
+    <br>
+<p>The new password. Example: <code>newpassword123</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password_confirmation"                data-endpoint="POSTuser--id--changePassword"
+               value="newpassword123"
+               data-component="body">
+    <br>
+<p>The password confirmation. Example: <code>newpassword123</code></p>
+        </div>
+        </form>
+
+                    <h2 id="user-management-DELETEuser--id--delete">Delete the specified user&#039;s account.</h2>
+
+<p>
+</p>
+
+<p>Finds the user by ID and deletes their account.
+If the user is not found, redirects back with an error message.
+After deletion, redirects to the login page with a success message.</p>
+
+<span id="example-requests-DELETEuser--id--delete">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost/user/1/delete" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/user/1/delete"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEuser--id--delete">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Account deleted successfully&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;User not found&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEuser--id--delete" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEuser--id--delete"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEuser--id--delete"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEuser--id--delete" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEuser--id--delete">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEuser--id--delete" data-method="DELETE"
+      data-path="user/{id}/delete"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEuser--id--delete', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEuser--id--delete"
+                    onclick="tryItOut('DELETEuser--id--delete');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEuser--id--delete"
+                    onclick="cancelTryOut('DELETEuser--id--delete');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEuser--id--delete"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>user/{id}/delete</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEuser--id--delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEuser--id--delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEuser--id--delete"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the user to delete. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+            
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                            </div>
+            </div>
+</div>
+</body>
+</html>

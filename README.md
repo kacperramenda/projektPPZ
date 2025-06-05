@@ -4,7 +4,10 @@
 
 ### Default
 <pre>
-<b><a href="#types">&lt;type&gt;</a></b></font>(<b><a href="#scopes">&lt;optional scope&gt;</a></b>): <b><a href="#description">&lt;description&gt;</a></b>
+<b>
+    <a href="#types">&lt;type&gt;</a>
+</b>
+(<b><a href="#scopes">&lt;optional scope&gt;</a></b>): <b><a href="#description">&lt;description&gt;</a></b>
 <sub>empty separator line</sub>
 <b><a href="#body">&lt;optional body&gt;</a></b>
 <sub>empty separator line</sub>
