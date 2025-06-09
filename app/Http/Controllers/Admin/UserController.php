@@ -27,9 +27,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('roles')->findOrFail($id);
+        $roles = Role::all();
 
         return Inertia::render('Admin/Users/Edit', [
             'user' => $user,
+            'roles' => $roles,
         ]);
     }
 
@@ -49,16 +51,16 @@ class UserController extends Controller
 
         return redirect()->route('admin.users')->with('success', 'Użytkownik zaktualizowany');
     }
-    
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        
+
         // Prevent admin from deleting their own account
         if ($user->id === Auth::id()) {
             abort(403, 'You cannot delete your own account');
         }
-        
+
         $user->delete();
 
         return redirect()
