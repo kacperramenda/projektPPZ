@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/user.php';
-require __DIR__ . '/admin.php';
+Route::get('/', function () {
+    return response('Home page', 200);
+});
+
+Route::get('/example', function () {
+    return response('Example page', 200);
+});
