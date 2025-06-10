@@ -1,11 +1,12 @@
 <?php
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+use Database\Seeders\RoleAndPermissionSeeder;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class, WithoutMiddleware::class)->beforeEach(function () {
     $this->withoutExceptionHandling();
+    $this->seed(RoleAndPermissionSeeder::class);
 });
 
 test('registration screen can be rendered', function () {
